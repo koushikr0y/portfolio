@@ -1,48 +1,43 @@
 {
-  "name": "portfolio",
-  "version": "0.1.0",
   "private": true,
-  "homepage": ".",
-  "dependencies": {
-    "@emailjs/browser": "^3.10.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@vercel/analytics": "^1.0.2",
-    "emailjs-com": "^3.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^2.1.4"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "serve": "next serve"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@mapbox/rehype-prism": "^0.8.0",
+    "@tailwindcss/forms": "^0.5.2",
+    "contentlayer": "^0.0.0",
+    "gray-matter": "^4.0.3",
+    "next": "12.0.7",
+    "next-contentlayer": "^0.1.0",
+    "next-mdx-remote": "^5.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scroll": "^1.8.4",
+    "reading-time": "^1.5.0",
+    "rehype-highlight": "^5.0.2",
+    "rehype-slug": "^5.0.1",
+    "remark-autolink-headings": "^7.0.1",
+    "remark-code-titles": "^0.1.2",
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.0",
+    "remark-slug": "^7.0.1",
+    "swr": "^1.3.0",
+    "unist-util-visit": "^4.1.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "gh-pages": "^5.0.0"
+    "@types/node": "^17.0.18",
+    "@types/react": "^17.0.39",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.5",
+    "rehype": "12.0.0",
+    "rehype-autolink-headings": "6.1.1",
+    "rehype-code-titles": "1.0.3",
+    "rehype-prism-plus": "^1.3.1",
+    "tailwindcss": "^3.1.6",
+    "typescript": "^4.5.5"
   }
 }
