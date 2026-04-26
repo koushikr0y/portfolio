@@ -1,88 +1,107 @@
-import { Layers, Cpu, PenTool, Wrench } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Layers, Cpu, PenTool } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Card, SkillBar } from "../components/UI";
 
-// --- Skills Section (Skill Tree) ---
-const Skills = () => {
-  const { currentTheme } = useTheme();
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setInView(true); obs.unobserve(el); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, inView];
+}
 
+// Animated SP counter
+function SPCounter({ target, color, inView }) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const step = target / 60;
+    const t = setInterval(() => {
+      start += step;
+      if (start >= target) { setCount(target); clearInterval(t); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(t);
+  }, [inView, target]);
+
+  return (
+    <span className={`font-black ${COLORS[color].text}`}>
+      {count} SP
+    </span>
+  );
+}
+
+const SkillCard = ({ color, icon: Icon, title, skills, sp, delay }) => {
+  const { currentTheme } = useTheme();
+  const [ref, inView] = useInView(0.15);
+
+  return (
+    <div ref={ref} style={{
+      transform: inView ? "translateY(0) scale(1)" : "translateY(28px) scale(0.96)",
+      opacity: inView ? 1 : 0,
+      transition: `transform 0.55s cubic-bezier(0.34,1.56,0.64,1) ${delay}ms, opacity 0.45s ease ${delay}ms`,
+    }}>
+      <Card color={color} className="h-full">
+        <div className={`flex items-center gap-3 mb-6 border-b-2 border-dashed ${currentTheme.inputBorder} pb-4`}>
+          <div className={`p-2 bg-opacity-10 ${COLORS[color].bg} rounded-lg ${COLORS[color].text}
+            transition-transform duration-300 hover:rotate-12 hover:scale-110`}>
+            <Icon size={24} />
+          </div>
+          <h3 className={`text-xl font-black ${currentTheme.text}`}>{title}</h3>
+        </div>
+
+        {skills.map((s, i) => (
+          <SkillBar key={s.name} name={s.name} level={s.level} color={color} delay={i * 120} />
+        ))}
+
+        <div className={`mt-4 pt-4 border-t-2 border-dashed ${currentTheme.inputBorder} flex justify-between items-center`}>
+          <span className={`text-xs font-bold ${currentTheme.textMuted}`}>Total Skill Points</span>
+          <SPCounter target={sp} color={color} inView={inView} />
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+const Skills = () => {
   return (
     <section className="py-20 px-4 max-w-6xl mx-auto">
       <SectionTitle subtitle="Abilities" title="Skill Tree" colorClass={COLORS.teal.text} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        {/* Game Engines */}
-        <Card color="teal">
-          <div className={`flex items-center gap-3 mb-6 border-b-2 border-dashed ${currentTheme.inputBorder} pb-4`}>
-            <div className={`p-2 bg-opacity-10 ${COLORS.teal.bg} rounded-lg ${COLORS.teal.text}`}>
-              <Layers size={24} />
-            </div>
-            <h3 className={`text-xl font-black ${currentTheme.text}`}>Game Engines</h3>
-          </div>
-          {/* <SkillBar name="Unreal Engine 5" level={95} color="teal" /> */}
-          <SkillBar name="Unity"  level={92} color="teal" />
-          <SkillBar name="Godot"  level={85} color="teal" />
-          {/* <SkillBar name="Phaser.js" level={75} color="teal" /> */}
-          <div className={`mt-4 pt-4 border-t-2 border-dashed ${currentTheme.inputBorder} flex justify-between items-center`}>
-            <span className={`text-xs font-bold ${currentTheme.textMuted}`}>Total Skill Points</span>
-            <span className={`font-black ${COLORS.teal.text}`}>425 SP</span>
-          </div>
-        </Card>
-
-        {/* Programming */}
-        <Card color="purple">
-          <div className={`flex items-center gap-3 mb-6 border-b-2 border-dashed ${currentTheme.inputBorder} pb-4`}>
-            <div className={`p-2 bg-opacity-10 ${COLORS.purple.bg} rounded-lg ${COLORS.purple.text}`}>
-              <Cpu size={24} />
-            </div>
-            <h3 className={`text-xl font-black ${currentTheme.text}`}>Programming</h3>
-          </div>
-          <SkillBar name="C++"    level={92} color="purple" />
-          <SkillBar name="C#"     level={90} color="purple" />
-          {/* <SkillBar name="TypeScript" level={95} color="purple" /> */}
-          <SkillBar name="Python" level={85} color="purple" />
-          <div className={`mt-4 pt-4 border-t-2 border-dashed ${currentTheme.inputBorder} flex justify-between items-center`}>
-            <span className={`text-xs font-bold ${currentTheme.textMuted}`}>Total Skill Points</span>
-            <span className={`font-black ${COLORS.purple.text}`}>442 SP</span>
-          </div>
-        </Card>
-
-        {/* Game Design */}
-        <Card color="pink">
-          <div className={`flex items-center gap-3 mb-6 border-b-2 border-dashed ${currentTheme.inputBorder} pb-4`}>
-            <div className={`p-2 bg-opacity-10 ${COLORS.pink.bg} rounded-lg ${COLORS.pink.text}`}>
-              <PenTool size={24} />
-            </div>
-            <h3 className={`text-xl font-black ${currentTheme.text}`}>Game Design</h3>
-          </div>
-          <SkillBar name="Level Design"   level={70} color="pink" />
-          <SkillBar name="Systems Design" level={78} color="pink" />
-          {/* <SkillBar name="Narrative" level={82} color="pink" /> */}
-          <div className={`mt-4 pt-4 border-t-2 border-dashed ${currentTheme.inputBorder} flex justify-between items-center`}>
-            <span className={`text-xs font-bold ${currentTheme.textMuted}`}>Total Skill Points</span>
-            <span className={`font-black ${COLORS.pink.text}`}>350 SP</span>
-          </div>
-        </Card>
-
-        {/* Technical Art (commented out) */}
-        {/* <Card color="orange">
-          <div className={`flex items-center gap-3 mb-6 border-b-2 border-dashed ${currentTheme.inputBorder} pb-4`}>
-            <div className={`p-2 bg-opacity-10 ${COLORS.orange.bg} rounded-lg ${COLORS.orange.text}`}>
-              <Wrench size={24} />
-            </div>
-            <h3 className={`text-xl font-black ${currentTheme.text}`}>Technical Art</h3>
-          </div>
-          <SkillBar name="Shaders / HLSL" level={88} color="orange" />
-          <SkillBar name="Optimization"   level={90} color="orange" />
-          <SkillBar name="VFX Graph"      level={82} color="orange" />
-          <div className={`mt-4 pt-4 border-t-2 border-dashed ${currentTheme.inputBorder} flex justify-between items-center`}>
-            <span className={`text-xs font-bold ${currentTheme.textMuted}`}>Total Skill Points</span>
-            <span className={`font-black ${COLORS.orange.text}`}>390 SP</span>
-          </div>
-        </Card> */}
-
+        <SkillCard
+          color="teal" icon={Layers} title="Game Engines" sp={425} delay={0}
+          skills={[
+            { name: "Unity",  level: 92 },
+            { name: "Godot",  level: 85 },
+          ]}
+        />
+        <SkillCard
+          color="purple" icon={Cpu} title="Programming" sp={442} delay={100}
+          skills={[
+            { name: "C++",    level: 92 },
+            { name: "C#",     level: 90 },
+            { name: "Python", level: 85 },
+          ]}
+        />
+        <SkillCard
+          color="pink" icon={PenTool} title="Game Design" sp={350} delay={200}
+          skills={[
+            { name: "Level Design",   level: 70 },
+            { name: "Systems Design", level: 78 },
+          ]}
+        />
       </div>
     </section>
   );
