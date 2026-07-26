@@ -58,7 +58,7 @@ function useTypewriter(words, speed = 80) {
   return display;
 }
 
-const Hero = () => {
+const Hero = ({ onOpenArcade }) => {
   const { currentTheme, theme } = useTheme();
   const [socialHover, setSocialHover] = useState(null);
 
@@ -82,21 +82,7 @@ const Hero = () => {
   return (
     <section className="min-h-screen pt-24 pb-16 flex flex-col items-center justify-center relative overflow-hidden px-4">
       {/* Ambient background glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2EC4B6]/10 blur-[140px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-[#F15BB5]/10 blur-[120px] rounded-full pointer-events-none" />
-
-      {/* Floating Pixel particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {PARTICLES.map((p, i) => (
-          <div key={i} className="pixel-particle" style={{
-            left: p.x, bottom: "-10px",
-            width: p.size, height: p.size,
-            background: p.color,
-            animationDuration: p.dur,
-            animationDelay: p.delay,
-          }} />
-        ))}
-      </div>
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#2EC4B6]/5 blur-[140px] rounded-full pointer-events-none" />
 
       {/* Status Available Pill Badge */}
       <div className="mb-6 animate-slide-up" style={{ animationDelay: "50ms" }}>

@@ -34,16 +34,6 @@ const NAV_LINKS = [
   { label: "Contact",    href: "#contact"    },
 ];
 
-const PIXEL_PARTICLES = [
-  { x: "5%",  delay: "0s",   dur: "5s",  color: "#FF9F1C", size: 5 },
-  { x: "20%", delay: "1s",   dur: "4s",  color: "#2EC4B6", size: 4 },
-  { x: "50%", delay: "0.5s", dur: "6s",  color: "#9B5DE5", size: 6 },
-  { x: "75%", delay: "1.5s", dur: "4.5s",color: "#F15BB5", size: 4 },
-  { x: "90%", delay: "0.2s", dur: "5.5s",color: "#FF9F1C", size: 5 },
-  { x: "35%", delay: "2s",   dur: "3.8s",color: "#2EC4B6", size: 3 },
-  { x: "60%", delay: "0.8s", dur: "5.2s",color: "#9B5DE5", size: 5 },
-];
-
 const Footer = () => {
   const { currentTheme, theme } = useTheme();
   const [ref, inView] = useInView(0.05);
@@ -68,23 +58,6 @@ const Footer = () => {
         theme === "dark" ? "border-[#333]" : "border-gray-200"
       } pt-16 pb-8`}
     >
-      {/* Floating pixel particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {PIXEL_PARTICLES.map((p, i) => (
-          <div
-            key={i}
-            className="pixel-particle"
-            style={{
-              left: p.x, bottom: "-10px",
-              width: p.size, height: p.size,
-              background: p.color,
-              animationDuration: p.dur,
-              animationDelay: p.delay,
-              opacity: 0.45,
-            }}
-          />
-        ))}
-      </div>
 
       <div
         className="max-w-6xl mx-auto px-4 relative z-10"

@@ -104,12 +104,7 @@ const ProjectDetailView = ({ project, onBack, onSelectProject }) => {
         {/* Back navigation & Share Toolbar */}
         <div className="flex items-center justify-between gap-4 mb-8">
           <button
-            onClick={() => {
-              if (window.location.hash.startsWith("#project-")) {
-                window.history.replaceState(null, "", window.location.pathname);
-              }
-              onBack();
-            }}
+            onClick={onBack}
             className={`px-5 py-2.5 rounded-xl font-black uppercase text-xs tracking-wider flex items-center gap-2
               border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#1A1A1A] bg-[#F15BB5] hover:bg-[#eb4aa9] text-white
               hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#1A1A1A]
