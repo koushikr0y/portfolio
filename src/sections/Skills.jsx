@@ -99,74 +99,81 @@ const SkillNodeCard = ({ skill, branchColor, delay }) => {
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 10;
-    const y = ((e.clientX - rect.left) / rect.width - 0.5) * -10;
+    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
+    const y = ((e.clientX - rect.left) / rect.width - 0.5) * -8;
     setTilt({ x, y });
   };
 
   return (
     <div
       ref={ref}
+      className="group relative cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => { setHovered(true); playHover(); }}
       onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }); }}
       style={{
         transform: inView
           ? hovered
-            ? `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-6px)`
+            ? `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-4px)`
             : "perspective(800px) rotateX(0) rotateY(0) translateY(0)"
           : "translateY(24px) scale(0.96)",
         opacity: inView ? 1 : 0,
         transition: hovered
-          ? "transform 0.1s ease, opacity 0.4s ease"
+          ? "transform 0.12s ease, opacity 0.4s ease"
           : `transform 0.45s cubic-bezier(0.34,1.56,0.64,1) ${delay}ms, opacity 0.4s ease ${delay}ms`,
       }}
-      className={`p-6 rounded-2xl border-[3px] border-dashed ${colorObj.border} ${currentTheme.cardBg}
-        shadow-[6px_6px_0px_0px_#1A1A1A] relative group overflow-hidden transition-all duration-200 cursor-pointer`}
     >
-      {/* Holographic Light Sheen on Hover */}
-      <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ${
-          hovered ? "opacity-100" : "opacity-0"
-        }`}
+      {/* Offset shadow div matching ProjectCard */}
+      <div className={`absolute inset-0 bg-black/20 rounded-2xl transition-transform duration-200
+        ${hovered ? "translate-x-3 translate-y-3" : "translate-x-2 translate-y-2"}`}
       />
 
-      {/* Skill Card Header */}
-      <div className="flex items-center justify-between gap-3.5 mb-4 relative z-10">
-        <div className="flex items-center gap-3.5">
-          <div
-            className={`p-3 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text} border-2 border-[#1A1A1A] shadow-[3px_3px_0px_0px_#1A1A1A]
-            group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}
-          >
-            <Icon size={26} />
-          </div>
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#FF9F1C] flex items-center gap-1">
-              <ShieldCheck size={12} /> VERIFIED ABILITY
-            </span>
-            <h4 className={`text-xl font-black ${currentTheme.text} leading-tight`}>
-              {skill.name}
-            </h4>
+      {/* Card Container matching ProjectCard */}
+      <div className={`relative ${currentTheme.cardBg} border-[3px] border-dashed ${colorObj.border} rounded-2xl overflow-hidden p-6`}>
+        {/* Holographic Light Sheen on Hover */}
+        <div
+          className={`absolute inset-0 pointer-events-none transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ${
+            hovered ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        {/* Skill Card Header */}
+        <div className="flex items-center justify-between gap-3.5 mb-4 relative z-10">
+          <div className="flex items-center gap-3.5">
+            <div
+              className={`p-3 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text} border ${currentTheme.cardBorder} shadow-sm
+              group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}
+            >
+              <Icon size={26} />
+            </div>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#FF9F1C] flex items-center gap-1">
+                <ShieldCheck size={12} /> VERIFIED ABILITY
+              </span>
+              <h4 className={`text-xl font-black ${currentTheme.text} leading-tight`}>
+                {skill.name}
+              </h4>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Capabilities / Specializations list */}
-      <div className="pt-3 border-t-2 border-dashed border-gray-700/20 relative z-10">
-        <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-2.5">
-          Capabilities & Core Tech:
-        </span>
-        <div className="flex flex-wrap gap-2">
-          {skill.capabilities.map((cap, i) => (
-            <span
-              key={i}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold ${currentTheme.inputBg} ${currentTheme.text} border border-gray-700/30 flex items-center gap-1.5
-                group-hover:border-[#2EC4B6]/60 hover:scale-105 hover:bg-[#2EC4B6]/20 transition-all duration-200 shadow-sm`}
-            >
-              <CheckCircle2 size={13} className={colorObj.text} />
-              {cap}
-            </span>
-          ))}
+        {/* Capabilities / Specializations list */}
+        <div className="pt-3 border-t-2 border-dashed border-gray-700/20 relative z-10">
+          <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-2.5">
+            Capabilities & Core Tech:
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {skill.capabilities.map((cap, i) => (
+              <span
+                key={i}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold ${currentTheme.inputBg} ${currentTheme.text} border border-gray-700/30 flex items-center gap-1.5
+                  group-hover:border-[#2EC4B6]/60 hover:scale-105 hover:bg-[#2EC4B6]/20 transition-all duration-200 shadow-sm`}
+              >
+                <CheckCircle2 size={13} className={colorObj.text} />
+                {cap}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -190,10 +197,10 @@ const Skills = () => {
         <button
           onClick={() => { playClick(); setActiveTab("all"); }}
           onMouseEnter={playHover}
-          className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border-2 border-[#1A1A1A] transition-all
+          className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border ${currentTheme.cardBorder} transition-all
             ${activeTab === "all"
-              ? "bg-[#F15BB5] text-white shadow-[4px_4px_0px_0px_#1A1A1A]"
-              : `${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 shadow-[2px_2px_0px_0px_#1A1A1A]`}`}
+              ? "bg-[#F15BB5] text-white shadow-md"
+              : `${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 shadow-sm`}`}
         >
           All Branches
         </button>
@@ -205,10 +212,10 @@ const Skills = () => {
               key={b.id}
               onClick={() => { playClick(); setActiveTab(b.id); }}
               onMouseEnter={playHover}
-              className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border-2 border-[#1A1A1A] transition-all flex items-center gap-2
+              className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border ${currentTheme.cardBorder} transition-all flex items-center gap-2
                 ${isActive
-                  ? "bg-[#2EC4B6] text-black shadow-[4px_4px_0px_0px_#1A1A1A]"
-                  : `${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 shadow-[2px_2px_0px_0px_#1A1A1A]`}`}
+                  ? "bg-[#2EC4B6] text-black shadow-md"
+                  : `${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 shadow-sm`}`}
             >
               <TabIcon size={15} />
               {b.category.split(" ")[0]}

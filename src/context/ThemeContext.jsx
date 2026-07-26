@@ -8,12 +8,12 @@ export const useTheme = () => useContext(ThemeContext);
 
 // --- Theme Provider ---
 export const ThemeProvider = ({ children }) => {
-  // Initialize theme from localStorage or default to 'light'
+  // Initialize theme from localStorage or default to 'dark'
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") || "light";
+      return localStorage.getItem("theme") || "dark";
     }
-    return "light";
+    return "dark";
   });
 
   const toggleTheme = () => {

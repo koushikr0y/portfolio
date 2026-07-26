@@ -45,7 +45,7 @@ const ProjectCard = ({ p, idx, onSelect }) => {
   const handleCardClick = () => {
     try {
       playOpen();
-    } catch (e) {}
+    } catch (e) { }
     onSelect(p);
   };
 

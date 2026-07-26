@@ -143,9 +143,9 @@ const Hero = ({ onOpenArcade }) => {
           onClick={() => { playClick(); scrollToSection("projects"); }}
           onMouseEnter={playHover}
           className="bg-[#2EC4B6] hover:bg-[#23ad9f] text-black px-6 py-3.5 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-wider
-            border-2 border-[#1A1A1A] shadow-[5px_5px_0px_0px_#1A1A1A]
-            hover:-translate-y-1 hover:shadow-[7px_7px_0px_0px_#1A1A1A]
-            active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2 group"
+            border-2 border-black/40 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)]
+            hover:-translate-y-1 hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,0.6)]
+            active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2 group cursor-pointer"
         >
           <Rocket size={18} className="group-hover:translate-x-0.5 transition-transform" />
           <span>Explore Projects Showcase</span>
@@ -156,9 +156,9 @@ const Hero = ({ onOpenArcade }) => {
           onClick={() => { playClick(); scrollToSection("contact"); }}
           onMouseEnter={playHover}
           className={`${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 px-6 py-3.5 rounded-2xl font-black uppercase text-xs sm:text-sm tracking-wider
-            border-2 border-[#1A1A1A] shadow-[5px_5px_0px_0px_#1A1A1A]
-            hover:-translate-y-1 hover:shadow-[7px_7px_0px_0px_#1A1A1A]
-            active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2`}
+            border-2 border-white/20 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)]
+            hover:-translate-y-1 hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,0.6)]
+            active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2 cursor-pointer`}
         >
           <Send size={16} />
           <span>Get in Touch</span>
