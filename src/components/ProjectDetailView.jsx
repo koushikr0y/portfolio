@@ -80,7 +80,7 @@ const ProjectDetailView = ({ project, onBack, onSelectProject }) => {
   const hasAnyLink = project.androidUrl || project.iosUrl || project.webUrl || project.steamUrl || project.githubUrl;
 
   // Next & Prev Project Calculation
-  const currentIndex = ALL_PROJECTS.findIndex((p) => p.id === project.id);
+  const currentIndex = ALL_PROJECTS.findIndex((p) => String(p.id) === String(project.id));
   const prevProject = currentIndex > 0 ? ALL_PROJECTS[currentIndex - 1] : ALL_PROJECTS[ALL_PROJECTS.length - 1];
   const nextProject = currentIndex < ALL_PROJECTS.length - 1 ? ALL_PROJECTS[currentIndex + 1] : ALL_PROJECTS[0];
 

@@ -29,7 +29,7 @@ export default function App() {
       const hash = window.location.hash;
       if (hash.startsWith("#project-")) {
         const projId = hash.replace("#project-", "");
-        const found = ALL_PROJECTS.find((p) => p.id === projId);
+        const found = ALL_PROJECTS.find((p) => String(p.id) === String(projId));
         if (found) {
           setSelectedProject(found);
           return;

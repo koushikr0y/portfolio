@@ -4,7 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Badge } from "../components/UI";
 import { ALL_PROJECTS } from "../data/portfolioData";
-import { playOpen, playHover } from "../utils/soundFX";
+import { playOpen } from "../utils/soundFX";
 
 function useInView(threshold = 0.08) {
   const ref = useRef(null);
@@ -37,9 +37,16 @@ const ProjectCard = ({ p, idx, onSelect }) => {
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientY - rect.top)  / rect.height - 0.5) * 8;
-    const y = ((e.clientX - rect.left) / rect.width  - 0.5) * -8;
+    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
+    const y = ((e.clientX - rect.left) / rect.width - 0.5) * -8;
     setTilt({ x, y });
+  };
+
+  const handleCardClick = () => {
+    try {
+      playOpen();
+    } catch (e) {}
+    onSelect(p);
   };
 
   const col = (idx % 3) - 1; // -1, 0, 1
@@ -47,7 +54,7 @@ const ProjectCard = ({ p, idx, onSelect }) => {
   return (
     <div
       ref={ref}
-      className="group relative"
+      className="group relative cursor-pointer"
       style={{
         transform: inView
           ? hovered
@@ -63,10 +70,10 @@ const ProjectCard = ({ p, idx, onSelect }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }); }}
+      onClick={handleCardClick}
     >
       {/* Offset shadow */}
-      <div className={`absolute inset-0 ${
-          currentTheme.text === "text-[#E0E0E0]" ? "bg-white/10" : "bg-black/10"
+      <div className={`absolute inset-0 ${currentTheme.text === "text-[#E0E0E0]" ? "bg-white/10" : "bg-black/10"
         } rounded-2xl transition-transform duration-200
         ${hovered ? "translate-x-3 translate-y-3" : "translate-x-2 translate-y-2"}`}
       />
@@ -86,12 +93,12 @@ const ProjectCard = ({ p, idx, onSelect }) => {
           {/* Hover overlay */}
           <div className={`absolute inset-0 flex items-center justify-center
             transition-all duration-300
-            ${hovered ? "opacity-100 backdrop-blur-[2px] bg-black/40" : "opacity-0"}`}>
+            ${hovered ? "opacity-100 backdrop-blur-[2px] bg-black/40" : "opacity-0 pointer-events-none"}`}>
             <button
-              onClick={() => { playOpen(); onSelect(p); }}
+              onClick={(e) => { e.stopPropagation(); handleCardClick(); }}
               className={`bg-white text-[#1A1A1A] px-6 py-2 rounded-full font-bold uppercase tracking-wider text-xs
                 border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#000]
-                transition-transform duration-200
+                transition-transform duration-200 cursor-pointer
                 ${hovered ? "scale-100" : "scale-90"}`}
             >
               View Details
@@ -102,7 +109,7 @@ const ProjectCard = ({ p, idx, onSelect }) => {
         {/* Card body */}
         <div className="p-6">
           <h3 className={`text-xl font-black ${currentTheme.text} mb-1`}>{p.title}</h3>
-          
+
           {/* Platform indicators */}
           <div className="flex items-center gap-1.5 mb-3 flex-wrap">
             {p.androidUrl && (
@@ -142,11 +149,11 @@ const ProjectCard = ({ p, idx, onSelect }) => {
             ))}
           </div>
           <button
-            onClick={() => onSelect(p)}
+            onClick={(e) => { e.stopPropagation(); handleCardClick(); }}
             className={`w-full py-2 rounded-lg font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2
               ${COLORS[p.color].border} ${COLORS[p.color].text} border-2 border-dashed
               hover:scale-[1.02] hover:shadow-md active:scale-95
-              transition-all duration-200`}
+              transition-all duration-200 cursor-pointer`}
           >
             View Details <ExternalLink size={14} />
           </button>
@@ -164,7 +171,7 @@ const Projects = ({ onSelectProject }) => {
 
   return (
     <section id="projects" className="py-20 px-4 max-w-6xl mx-auto">
-      <SectionTitle subtitle="Achievements Unlocked" title="Projects" colorClass={COLORS.pink.text} />
+      <SectionTitle subtitle="Achievements Unlocked" title="Projects Showcase" colorClass={COLORS.pink.text} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {visibleProjects.map((p, i) => (
@@ -181,7 +188,7 @@ const Projects = ({ onSelectProject }) => {
               border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#1A1A1A]
               hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#1A1A1A]
               active:translate-y-[3px] active:shadow-none
-              transition-all duration-150`}
+              transition-all duration-150 cursor-pointer`}
           >
             {showAll ? "Show Less" : "Show More Projects"}
           </button>

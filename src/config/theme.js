@@ -27,8 +27,8 @@ export const THEMES = {
 
 export const COLORS = {
   orange: { border: "border-[#FF9F1C]", text: "text-[#FF9F1C]", bg: "bg-[#FF9F1C]" },
-  teal:   { border: "border-[#2EC4B6]", text: "text-[#2EC4B6]", bg: "bg-[#2EC4B6]" },
+  teal: { border: "border-[#2EC4B6]", text: "text-[#2EC4B6]", bg: "bg-[#2EC4B6]" },
   purple: { border: "border-[#9B5DE5]", text: "text-[#9B5DE5]", bg: "bg-[#9B5DE5]" },
-  pink:   { border: "border-[#F15BB5]", text: "text-[#F15BB5]", bg: "bg-[#F15BB5]" },
-  gray:   { border: "border-gray-400",  text: "text-gray-400",  bg: "bg-gray-400"  },
+  pink: { border: "border-[#F15BB5]", text: "text-[#F15BB5]", bg: "bg-[#F15BB5]" },
+  gray: { border: "border-gray-400", text: "text-gray-400", bg: "bg-gray-400" },
 };
