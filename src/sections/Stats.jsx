@@ -34,7 +34,7 @@ const Stats = () => {
   ];
 
   return (
-    <section className="py-20 px-4 max-w-6xl mx-auto">
+    <section id="about" className="py-20 px-4 max-w-6xl mx-auto">
       <SectionTitle subtitle="Player Stats" title="Character Sheet" />
 
       {/* Stat Cards */}

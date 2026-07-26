@@ -3,7 +3,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
 import ArcadeGameModal from "./components/ArcadeGameModal";
-// import FamiliarChat from "./components/FamiliarChat";
 import Navbar from "./sections/Navbar";
 import Hero from "./sections/Hero";
 import Stats from "./sections/Stats";
@@ -76,8 +75,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <CustomCursor />
-      <Navbar onOpenArcade={() => setShowArcade(true)} />
-      
+
       {showArcade && (
         <ArcadeGameModal onClose={() => setShowArcade(false)} />
       )}
@@ -90,13 +88,13 @@ export default function App() {
         />
       ) : (
         <>
+          <Navbar onOpenArcade={() => setShowArcade(true)} />
           <Hero onOpenArcade={() => setShowArcade(true)} />
           <Stats />
           <Skills />
           <Experience />
           <Projects onSelectProject={handleSelectProject} />
           <Contact />
-          {/* <FamiliarChat /> */}
           <Footer />
         </>
       )}

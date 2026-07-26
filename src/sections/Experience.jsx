@@ -2,8 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { Trophy, Briefcase, MapPin, Calendar, Star, ChevronDown } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
-import { SectionTitle, Card, Badge } from "../components/UI";
+import { SectionTitle, Badge } from "../components/UI";
 import { JOBS } from "../data/portfolioData";
+import { playClick, playHover } from "../utils/soundFX";
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -21,24 +22,16 @@ function useInView(threshold = 0.1) {
   return [ref, inView];
 }
 
-// Smooth accordion with auto-height
+// Smooth accordion
 const Accordion = ({ open, children }) => {
   const innerRef = useRef(null);
   const [height, setHeight] = useState(0);
-
   useEffect(() => {
     if (!innerRef.current) return;
     setHeight(open ? innerRef.current.scrollHeight : 0);
   }, [open]);
-
   return (
-    <div
-      style={{
-        height: `${height}px`,
-        overflow: "hidden",
-        transition: "height 0.35s cubic-bezier(0.22,1,0.36,1)",
-      }}
-    >
+    <div style={{ height: `${height}px`, overflow: "hidden", transition: "height 0.35s cubic-bezier(0.22,1,0.36,1)" }}>
       <div ref={innerRef}>{children}</div>
     </div>
   );
@@ -46,87 +39,103 @@ const Accordion = ({ open, children }) => {
 
 const ExperienceCard = ({ job, idx }) => {
   const { currentTheme } = useTheme();
+  // Closed by default so first experience panel isn't open automatically
   const [expanded, setExpanded] = useState(false);
-  const [ref, inView] = useInView(0.1);
+  const [ref, inView] = useInView(0.08);
+  const [hovered, setHovered] = useState(false);
+  const colorObj = COLORS[job.color] || COLORS.teal;
 
   return (
     <div
       ref={ref}
+      className="group relative cursor-pointer mb-6"
+      onMouseEnter={() => { setHovered(true); playHover(); }}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        transform: inView ? "translateX(0)" : idx % 2 === 0 ? "translateX(-32px)" : "translateX(32px)",
         opacity: inView ? 1 : 0,
-        transition: `transform 0.55s cubic-bezier(0.22,1,0.36,1) ${idx * 100}ms, opacity 0.5s ease ${idx * 100}ms`,
+        transform: inView ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 0.5s ease ${idx * 100}ms, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${idx * 100}ms`,
       }}
     >
-      <Card color={job.color} className="group transition-all">
+      {/* Offset shadow div matching Projects & Skills cards */}
+      <div className={`absolute inset-0 bg-black/20 rounded-2xl transition-transform duration-200
+        ${hovered ? "translate-x-3 translate-y-3" : "translate-x-2 translate-y-2"}`}
+      />
 
-        {/* Clickable header */}
-        <div className="cursor-pointer" onClick={() => setExpanded((e) => !e)}>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+      {/* Card Body matching Skills & Projects */}
+      <div
+        className={`relative ${currentTheme.cardBg} border-[3px] border-dashed ${colorObj.border} rounded-2xl overflow-hidden p-5 sm:p-6
+          transition-transform duration-200`}
+        onClick={() => { playClick(); setExpanded((e) => !e); }}
+      >
+        {/* Holographic Sheen on Hover */}
+        <div
+          className={`absolute inset-0 pointer-events-none transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ${
+            hovered ? "opacity-100" : "opacity-0"
+          }`}
+        />
 
-            {/* Icon + title */}
-            <div className="flex items-center gap-3">
-              <div className={`p-3 rounded-xl border-2 border-dashed ${COLORS[job.color].border}
-                transition-all duration-300 group-hover:scale-110 group-hover:rotate-6`}>
-                {idx === 0
-                  ? <Trophy size={24} className={COLORS[job.color].text} />
-                  : <Briefcase size={24} className={COLORS[job.color].text} />
-                }
-              </div>
-              <div>
-                <h3 className={`text-xl md:text-2xl font-black ${currentTheme.text}`}>{job.title}</h3>
-                <div className={`flex flex-wrap items-center gap-3 text-sm font-bold ${currentTheme.textMuted} mt-1`}>
-                  <span className="flex items-center gap-1"><Briefcase size={14} /> {job.company}</span>
-                  <span className="flex items-center gap-1"><MapPin size={14} /> {job.location}</span>
-                  <span className="flex items-center gap-1"><Calendar size={14} /> {job.date}</span>
-                </div>
-              </div>
+        {/* Active Quest Top Highlight */}
+        {job.status === "ACTIVE" && (
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#2EC4B6] to-transparent" />
+        )}
+
+        {/* Card Header */}
+        <div className="flex items-start justify-between gap-4 mb-3 relative z-10">
+          <div className="flex items-center gap-3.5">
+            <div className={`p-3 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text} border ${currentTheme.cardBorder} shadow-sm
+              group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
+              {idx === 0
+                ? <Trophy size={24} />
+                : <Briefcase size={24} />
+              }
             </div>
-
-            {/* XP + status */}
-            <div className="flex flex-col md:items-end gap-1 w-full md:w-auto">
-              <div className="flex justify-between w-full md:w-auto items-center gap-4">
-                <span className={`font-black text-lg ${COLORS[job.color].text}`}>{job.xp}</span>
+            <div>
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <Badge color={job.color} filled={job.status === "ACTIVE"}>{job.status}</Badge>
+                <span className={`text-[10px] font-black uppercase tracking-widest ${colorObj.text}`}>
+                  {job.xp}
+                </span>
               </div>
+              <h3 className={`text-lg sm:text-xl font-black ${currentTheme.text} leading-tight`}>
+                {job.title}
+              </h3>
             </div>
           </div>
 
-          {/* Description + chevron */}
-          <div className="flex justify-between items-center">
-            <p className={`${currentTheme.textMuted} font-medium leading-relaxed border-l-4 ${currentTheme.inputBorder} pl-4 py-1 flex-1`}>
-              {job.desc}
-            </p>
-            <button
-              className={`ml-4 p-2 rounded-full ${currentTheme.inputBg} transition-all duration-300
-                hover:scale-110 active:scale-95`}
-            >
-              <ChevronDown
-                size={20}
-                className={`${currentTheme.text} transition-transform duration-350 ${expanded ? "rotate-180" : ""}`}
-              />
-            </button>
+          {/* Chevron Accordion Icon */}
+          <div className={`p-2 rounded-xl ${currentTheme.inputBg} border border-dashed ${currentTheme.inputBorder} flex-shrink-0 mt-1`}>
+            <ChevronDown
+              size={18}
+              className={`${currentTheme.text} transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+            />
           </div>
         </div>
 
-        {/* Smooth accordion */}
+        {/* Meta Info */}
+        <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-bold ${currentTheme.textMuted} mb-3.5 relative z-10`}>
+          <span className="flex items-center gap-1.5"><Briefcase size={13} className={colorObj.text} /> {job.company}</span>
+          <span className="flex items-center gap-1.5"><MapPin size={13} /> {job.location}</span>
+          <span className="flex items-center gap-1.5"><Calendar size={13} /> {job.date}</span>
+        </div>
+
+        {/* Description */}
+        <p className={`text-sm ${currentTheme.textMuted} font-medium leading-relaxed border-l-2 border-dashed ${colorObj.border} pl-3 relative z-10`}>
+          {job.desc}
+        </p>
+
+        {/* Achievements Accordion */}
         <Accordion open={expanded}>
           {job.achievements.length > 0 && (
-            <div className={`mt-6 ${currentTheme.inputBg} rounded-lg p-4 border border-dashed ${currentTheme.inputBorder}`}>
-              <h4 className={`font-black text-xs uppercase tracking-wider ${currentTheme.textMuted} mb-3 flex items-center gap-2`}>
-                <Star size={12} /> Key Achievements
+            <div className={`mt-4 ${currentTheme.inputBg} rounded-xl p-4 border border-dashed ${currentTheme.inputBorder} relative z-10`}>
+              <h4 className={`font-black text-[10px] uppercase tracking-wider ${currentTheme.textMuted} mb-3 flex items-center gap-2`}>
+                <Star size={11} className={colorObj.text} /> Key Achievements
               </h4>
               <ul className="space-y-2">
                 {job.achievements.map((ach, i) => (
-                  <li
-                    key={i}
-                    className={`flex items-start gap-2 text-sm font-bold ${currentTheme.text}`}
-                    style={{
-                      animationDelay: `${i * 60}ms`,
-                      animation: expanded ? "slide-left 0.3s ease both" : "none",
-                    }}
-                  >
-                    <span className={`${COLORS.orange.text} mt-1`}>✦</span> {ach}
+                  <li key={i} className={`flex items-start gap-2 text-sm font-semibold ${currentTheme.text}`}>
+                    <span className={`${colorObj.text} flex-shrink-0 mt-0.5`}>✦</span>
+                    <span>{ach}</span>
                   </li>
                 ))}
               </ul>
@@ -134,24 +143,28 @@ const ExperienceCard = ({ job, idx }) => {
           )}
         </Accordion>
 
-        {/* Tech stack */}
-        <div className="flex flex-wrap gap-2 mt-6">
+        {/* Tech Stack Badges */}
+        <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-dashed border-gray-700/20 relative z-10">
           {job.stack.map((tech) => (
             <Badge key={tech} color={job.color}>{tech}</Badge>
           ))}
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
 
 const Experience = () => {
   return (
-    <section className="py-20 px-4 max-w-5xl mx-auto">
+    <section id="experience" className="py-20 px-4 max-w-4xl mx-auto">
       <SectionTitle subtitle="Quest Log" title="Experience" colorClass={COLORS.purple.text} />
-      <div className="space-y-8">
+      <div className="space-y-2">
         {JOBS.map((job, idx) => (
-          <ExperienceCard key={idx} job={job} idx={idx} />
+          <ExperienceCard
+            key={idx}
+            job={job}
+            idx={idx}
+          />
         ))}
       </div>
     </section>
