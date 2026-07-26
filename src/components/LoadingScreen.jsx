@@ -1,219 +1,110 @@
 import { useEffect, useState, useRef } from "react";
+import { Gamepad2, Sparkles, Cpu, Radio, ShieldCheck } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
-import { COLORS } from "../config/theme";
 
-const BOOT_LINES = [
-  { text: "▶ INITIALIZING GAME ENGINE...",       delay: 0,    color: "#2EC4B6" },
-  { text: "▶ LOADING ASSET BUNDLES...",           delay: 320,  color: "#9B5DE5" },
-  { text: "▶ COMPILING SHADER PROGRAMS...",       delay: 640,  color: "#FF9F1C" },
-  { text: "▶ CONNECTING TO PORTFOLIO API...",     delay: 960,  color: "#F15BB5" },
-  { text: "▶ MOUNTING SCENE GRAPH...",            delay: 1280, color: "#2EC4B6" },
-  { text: "▶ ALL SYSTEMS NOMINAL",               delay: 1600, color: "#4ade80" },
+const LOADING_STEPS = [
+  { label: "Initializing Game Engine...", icon: Cpu, color: "#2EC4B6" },
+  { label: "Compiling Shader Graph & VFX...", icon: Sparkles, color: "#FF9F1C" },
+  { label: "Syncing Multiplayer Nodes...", icon: Radio, color: "#F15BB5" },
+  { label: "Ready to Launch", icon: ShieldCheck, color: "#4ade80" },
 ];
-
-const PIXEL_PARTICLES = Array.from({ length: 18 }, (_, i) => ({
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: [4, 6, 8][i % 3],
-  color: ["#FF9F1C", "#2EC4B6", "#9B5DE5", "#F15BB5"][i % 4],
-  dur: 2 + (i % 4) * 0.8,
-  delay: (i * 0.18) % 3,
-}));
 
 const LoadingScreen = ({ onComplete }) => {
   const { currentTheme, theme } = useTheme();
-  const [xp, setXp] = useState(0);
-  const [visibleLines, setVisibleLines] = useState([]);
-  const [done, setDone] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
-  const rafRef = useRef(null);
   const startRef = useRef(null);
+  const rafRef = useRef(null);
 
-  // XP bar animation
   useEffect(() => {
     startRef.current = performance.now();
-    const DURATION = 2400;
+    const DURATION = 1800; // Fast 1.8 second loading
 
     const tick = (now) => {
       const elapsed = now - startRef.current;
-      const progress = Math.min(elapsed / DURATION, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setXp(Math.floor(eased * 100));
-      if (progress < 1) {
+      const pct = Math.min((elapsed / DURATION) * 100, 100);
+      setProgress(Math.floor(pct));
+
+      // Update step index based on progress
+      if (pct < 30) setCurrentStepIndex(0);
+      else if (pct < 65) setCurrentStepIndex(1);
+      else if (pct < 95) setCurrentStepIndex(2);
+      else setCurrentStepIndex(3);
+
+      if (pct < 100) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
-        setXp(100);
-        setDone(true);
+        setTimeout(() => setFadeOut(true), 250);
+        setTimeout(() => onComplete?.(), 600);
       }
     };
+
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [onComplete]);
 
-  // Boot lines stagger in
-  useEffect(() => {
-    BOOT_LINES.forEach((line) => {
-      setTimeout(() => {
-        setVisibleLines((prev) => [...prev, line]);
-      }, line.delay + 200);
-    });
-  }, []);
-
-  // Trigger fade-out and call onComplete
-  useEffect(() => {
-    if (!done) return;
-    const t1 = setTimeout(() => setFadeOut(true), 500);
-    const t2 = setTimeout(() => onComplete?.(), 1000);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [done, onComplete]);
+  const activeStep = LOADING_STEPS[currentStepIndex];
+  const StepIcon = activeStep.icon;
 
   return (
     <div
-      className={`fixed inset-0 z-[200] flex items-center justify-center overflow-hidden
-        ${theme === "dark" ? "bg-[#0A0A0F]" : "bg-[#FFF9F0]"}`}
-      style={{
-        opacity: fadeOut ? 0 : 1,
-        transition: "opacity 0.5s ease-in-out",
-      }}
+      className={`fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden
+        ${theme === "dark" ? "bg-[#0A0A0F]" : "bg-[#F8F9FA]"} transition-opacity duration-500`}
+      style={{ opacity: fadeOut ? 0 : 1 }}
     >
-      {/* Scanlines overlay */}
-      <div className="absolute inset-0 scanlines pointer-events-none opacity-60 z-10" />
+      {/* Background ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#2EC4B6]/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#F15BB5]/10 blur-[100px] rounded-full pointer-events-none" />
 
-      {/* Grid background */}
-      <div className={`absolute inset-0 pointer-events-none ${theme === "light" ? "bg-grid-light" : "bg-grid-dark"}`} />
+      {/* Main Glass Center Card */}
+      <div className="relative z-10 flex flex-col items-center max-w-sm w-full px-6">
+        
+        {/* Animated Avatar Emblem */}
+        <div className="relative mb-6">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#2EC4B6]/20 to-[#F15BB5]/20 border-4 border-dashed border-[#FF9F1C] p-1.5 shadow-[0_0_25px_rgba(255,159,28,0.3)] flex items-center justify-center relative overflow-hidden group">
+            <div className="w-full h-full bg-[#FFE5D9] rounded-full overflow-hidden relative flex items-center justify-center">
+              <img
+                src="https://api.dicebear.com/9.x/notionists/svg?seed=Riley"
+                alt="Koushik Roy Avatar"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+          </div>
+          {/* Decorative Sparkle */}
+          <Sparkles size={20} className="absolute -top-1 -right-1 text-[#FF9F1C] animate-bounce" />
+        </div>
 
-      {/* Floating pixel particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {PIXEL_PARTICLES.map((p, i) => (
-          <div
-            key={i}
-            className="pixel-particle"
-            style={{
-              left: `${p.x}%`,
-              bottom: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-              background: p.color,
-              animationDuration: `${p.dur}s`,
-              animationDelay: `${p.delay}s`,
-              borderRadius: "2px",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Corner decorations */}
-      {[
-        "top-4 left-4 border-t-4 border-l-4",
-        "top-4 right-4 border-t-4 border-r-4",
-        "bottom-4 left-4 border-b-4 border-l-4",
-        "bottom-4 right-4 border-b-4 border-r-4",
-      ].map((cls, i) => (
-        <div
-          key={i}
-          className={`absolute w-10 h-10 ${cls} border-[#FF9F1C] opacity-40 pointer-events-none`}
-        />
-      ))}
-
-      {/* Main card */}
-      <div
-        className={`relative z-20 w-full max-w-md mx-4 ${currentTheme.cardBg}
-          border-[3px] border-dashed ${COLORS.orange.border}
-          rounded-2xl p-8`}
-        style={{ boxShadow: "10px 10px 0px 0px rgba(255,159,28,0.25)" }}
-      >
-        {/* Game logo / title */}
+        {/* Title & Role Header */}
         <div className="text-center mb-8">
-          <div
-            className={`text-[10px] font-bold tracking-[0.35em] uppercase ${COLORS.teal.text} mb-2 animate-flicker`}
-          >
-            ◆ PORTFOLIO OS v2.0 ◆
-          </div>
-          <h1
-            className={`text-5xl font-black ${currentTheme.text} tracking-tighter`}
-            style={{ textShadow: "4px 4px 0px #FF9F1C" }}
-          >
-            KOUSHIK
+          <h1 className={`text-3xl font-black ${currentTheme.text} uppercase tracking-tight`}>
+            Koushik Roy
           </h1>
-          <h2
-            className={`text-2xl font-black ${COLORS.pink.text} tracking-tight -mt-1`}
-          >
-            ROY
-          </h2>
-          <div className={`text-xs font-bold tracking-widest ${currentTheme.textMuted} mt-2 uppercase`}>
-            Game Developer · Level 24
-          </div>
+          <p className="text-xs font-black uppercase tracking-widest text-[#F15BB5] mt-1">
+            Game Developer & Systems Architect
+          </p>
         </div>
 
-        {/* Boot log */}
-        <div
-          className={`${currentTheme.inputBg} rounded-xl border-2 border-dashed ${currentTheme.inputBorder}
-            p-4 mb-6 h-[148px] overflow-hidden font-mono text-xs`}
-        >
-          {visibleLines.map((line, i) => (
-            <div
-              key={i}
-              className="leading-6"
-              style={{
-                color: line.color,
-                animation: "slide-left 0.25s ease both",
-                animationDelay: "0ms",
-              }}
-            >
-              {line.text}
+        {/* Smooth Loader Container */}
+        <div className="w-full space-y-3">
+          {/* Status Label & Percentage */}
+          <div className="flex items-center justify-between text-xs font-bold">
+            <div className="flex items-center gap-2" style={{ color: activeStep.color }}>
+              <StepIcon size={15} className="animate-spin-slow" />
+              <span>{activeStep.label}</span>
             </div>
-          ))}
-          {/* Blinking cursor */}
-          {!done && (
-            <span
-              className="inline-block w-2 h-4 ml-1 align-middle"
-              style={{
-                background: "#2EC4B6",
-                animation: "blink 0.7s step-end infinite",
-              }}
+            <span className={`font-mono font-black ${currentTheme.text}`}>{progress}%</span>
+          </div>
+
+          {/* Progress Bar Track */}
+          <div className={`h-3 w-full rounded-full border-2 border-[#1A1A1A] dark:border-white/20 ${currentTheme.inputBg} overflow-hidden relative shadow-[2px_2px_0px_0px_#1A1A1A]`}>
+            <div
+              className="h-full bg-gradient-to-r from-[#2EC4B6] via-[#FF9F1C] to-[#F15BB5] rounded-full transition-all duration-75"
+              style={{ width: `${progress}%` }}
             />
-          )}
-        </div>
-
-        {/* XP load bar */}
-        <div className="mb-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className={`text-[10px] font-bold uppercase tracking-widest ${currentTheme.textMuted}`}>
-              Loading Assets
-            </span>
-            <span className={`text-sm font-black ${COLORS.orange.text}`}>{xp}%</span>
-          </div>
-          <div
-            className={`h-5 w-full rounded-full overflow-hidden border-2 ${currentTheme.inputBorder} ${currentTheme.inputBg} relative`}
-          >
-            <div
-              className={`h-full ${COLORS.orange.bg} relative shimmer-wrap`}
-              style={{
-                width: `${xp}%`,
-                transition: "width 0.08s linear",
-              }}
-            >
-              <div className="skill-bar-stripes absolute inset-0" />
-            </div>
           </div>
         </div>
 
-        {/* Press any key — only shows when complete */}
-        <div
-          className="text-center h-6"
-          style={{
-            opacity: done ? 1 : 0,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          <span
-            className={`text-xs font-bold tracking-[0.2em] uppercase ${COLORS.teal.text}`}
-            style={{ animation: done ? "blink 1s step-end infinite" : "none" }}
-          >
-            ▶ ENTERING WORLD...
-          </span>
-        </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Star, ExternalLink, Github, Gamepad2, Sparkles, X, Play, Image } from "lucide-react";
+import { Star, ExternalLink, Github, Gamepad2, Play, Smartphone, Apple, Globe } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Badge } from "../components/UI";
-import { model } from "../config/gemini";
 import { ALL_PROJECTS } from "../data/portfolioData";
+import { playOpen, playHover } from "../utils/soundFX";
 
 function useInView(threshold = 0.08) {
   const ref = useRef(null);
@@ -22,62 +22,10 @@ function useInView(threshold = 0.08) {
   return [ref, inView];
 }
 
-const getYoutubeEmbedUrl = (id) =>
-  `https://www.youtube.com/embed/${id}?autoplay=1&mute=1`;
-
 const getThumbnailStyle = (project) => {
   if (project.thumbnailImage)
     return { backgroundImage: `url(${project.thumbnailImage})`, backgroundSize: "cover", backgroundPosition: "center" };
   return { background: project.cardGradient };
-};
-
-const ModalMedia = ({ project }) => {
-  if (project.youtubeId) {
-    return (
-      <div className="w-full aspect-video bg-black relative border-b-2 border-dashed border-gray-700/50">
-        <iframe width="100%" height="100%" src={getYoutubeEmbedUrl(project.youtubeId)}
-          title={`${project.title} — Video`} frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen className="absolute inset-0" />
-      </div>
-    );
-  }
-  const fallbackSrc = project.previewImages?.[0] ?? null;
-  return (
-    <div className="w-full aspect-video border-b-2 border-dashed border-gray-700/50 flex items-center justify-center"
-      style={fallbackSrc
-        ? { backgroundImage: `url(${fallbackSrc})`, backgroundSize: "cover", backgroundPosition: "center" }
-        : { background: project.cardGradient }}>
-      {!fallbackSrc && (
-        <div className="flex flex-col items-center gap-2 opacity-40">
-          <Image size={40} className="text-white" />
-          <span className="text-white text-xs font-bold uppercase tracking-widest">No Preview</span>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const PreviewSidebar = ({ project, currentTheme }) => {
-  const images = project.previewImages ?? [];
-  const slots = [...images, null, null, null, null].slice(0, 4);
-  return (
-    <div className={`w-full lg:w-64 flex-shrink-0 ${currentTheme.inputBg} rounded-xl p-4 border-2 border-dashed ${currentTheme.inputBorder}`}>
-      <h4 className={`text-xs font-bold uppercase ${currentTheme.textMuted} mb-3`}>Screenshots</h4>
-      <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
-        {slots.map((src, i) => (
-          <div key={i}
-            className="h-24 rounded-lg overflow-hidden relative cursor-pointer hover:scale-[1.03] hover:opacity-90 transition-all duration-200"
-            style={src
-              ? { backgroundImage: `url(${src})`, backgroundSize: "cover", backgroundPosition: "center" }
-              : { background: project.cardGradient, filter: i % 2 === 1 ? "hue-rotate(60deg)" : "none" }}>
-            {src && <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />}
-            {!src && <div className="absolute inset-0 flex items-center justify-center opacity-30"><Image size={20} className="text-white" /></div>}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 };
 
 // Tilt-on-hover card
@@ -140,7 +88,7 @@ const ProjectCard = ({ p, idx, onSelect }) => {
             transition-all duration-300
             ${hovered ? "opacity-100 backdrop-blur-[2px] bg-black/40" : "opacity-0"}`}>
             <button
-              onClick={() => onSelect(p)}
+              onClick={() => { playOpen(); onSelect(p); }}
               className={`bg-white text-[#1A1A1A] px-6 py-2 rounded-full font-bold uppercase tracking-wider text-xs
                 border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#000]
                 transition-transform duration-200
@@ -153,7 +101,37 @@ const ProjectCard = ({ p, idx, onSelect }) => {
 
         {/* Card body */}
         <div className="p-6">
-          <h3 className={`text-xl font-black ${currentTheme.text} mb-2`}>{p.title}</h3>
+          <h3 className={`text-xl font-black ${currentTheme.text} mb-1`}>{p.title}</h3>
+          
+          {/* Platform indicators */}
+          <div className="flex items-center gap-1.5 mb-3 flex-wrap">
+            {p.androidUrl && (
+              <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="Android">
+                <Smartphone size={10} /> Android
+              </span>
+            )}
+            {p.iosUrl && (
+              <span className="px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="iOS">
+                <Apple size={10} /> iOS
+              </span>
+            )}
+            {p.webUrl && (
+              <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="Web">
+                <Globe size={10} /> Web
+              </span>
+            )}
+            {p.steamUrl && (
+              <span className="px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="Steam">
+                <Gamepad2 size={10} /> Steam
+              </span>
+            )}
+            {p.githubUrl && (
+              <span className="px-1.5 py-0.5 rounded bg-gray-500/10 text-gray-400 border border-gray-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="GitHub Source">
+                <Github size={10} /> GitHub
+              </span>
+            )}
+          </div>
+
           <p className={`text-sm ${currentTheme.textMuted} font-medium mb-4 line-clamp-2`}>{p.desc}</p>
           <div className="flex flex-wrap gap-2 mb-4">
             {p.tags.map((t) => (
@@ -178,54 +156,19 @@ const ProjectCard = ({ p, idx, onSelect }) => {
   );
 };
 
-const Projects = () => {
-  const { currentTheme } = useTheme();
-  const [selectedProject, setSelectedProject] = useState(null);
+const Projects = ({ onSelectProject }) => {
   const [showAll, setShowAll] = useState(false);
-  const [lore, setLore] = useState("");
-  const [generatingLore, setGeneratingLore] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const INITIAL_PROJECT_COUNT = 6;
   const visibleProjects = showAll ? ALL_PROJECTS : ALL_PROJECTS.slice(0, INITIAL_PROJECT_COUNT);
 
-  const openModal = (p) => {
-    setSelectedProject(p);
-    setTimeout(() => setModalVisible(true), 10);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-    setTimeout(() => { setSelectedProject(null); setLore(""); setGeneratingLore(false); }, 280);
-  };
-
-  const generateLore = async () => {
-    if (!selectedProject || generatingLore) return;
-    setGeneratingLore(true);
-    setLore("");
-    try {
-      const prompt = `Write a short, exciting RPG item description (max 40 words) for a legendary artifact named "${selectedProject.title}". It was forged using ${selectedProject.tags.join(", ")}. Use magical metaphors for the tech.`;
-      const result = await model.generateContent(prompt);
-      setLore(result.response.text());
-    } catch (e) {
-      setLore("The ancient runes are unreadable at this time.");
-    } finally {
-      setGeneratingLore(false);
-    }
-  };
-
-  useEffect(() => {
-    document.body.style.overflow = selectedProject ? "hidden" : "unset";
-    return () => { document.body.style.overflow = "unset"; };
-  }, [selectedProject]);
-
   return (
-    <section className="py-20 px-4 max-w-6xl mx-auto">
+    <section id="projects" className="py-20 px-4 max-w-6xl mx-auto">
       <SectionTitle subtitle="Achievements Unlocked" title="Projects" colorClass={COLORS.pink.text} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {visibleProjects.map((p, i) => (
-          <ProjectCard key={p.id} p={p} idx={i} onSelect={openModal} />
+          <ProjectCard key={p.id} p={p} idx={i} onSelect={onSelectProject} />
         ))}
       </div>
 
@@ -242,114 +185,6 @@ const Projects = () => {
           >
             {showAll ? "Show Less" : "Show More Projects"}
           </button>
-        </div>
-      )}
-
-      {/* Modal */}
-      {selectedProject && (
-        <div
-          className="fixed inset-0 z-[100] overflow-y-auto bg-black/80 backdrop-blur-sm"
-          style={{
-            opacity: modalVisible ? 1 : 0,
-            transition: "opacity 0.25s ease",
-          }}
-          onClick={closeModal}
-        >
-          <div className="flex min-h-full items-start justify-center p-4 md:items-center">
-            <div
-              className={`${currentTheme.cardBg} w-full max-w-4xl text-left rounded-2xl shadow-2xl border-4 border-dashed ${COLORS.pink.border} overflow-hidden relative my-8`}
-              style={{
-                transform: modalVisible ? "scale(1) translateY(0)" : "scale(0.92) translateY(20px)",
-                transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal header */}
-              <div className={`flex justify-between items-center p-4 border-b-2 border-dashed ${COLORS.pink.border} ${currentTheme.inputBg}`}>
-                <span className={`font-black uppercase tracking-widest text-sm ${COLORS.pink.text} flex items-center gap-2`}>
-                  <Gamepad2 size={18} /> Quest Details
-                </span>
-                <button onClick={closeModal}
-                  className={`p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-110 active:scale-90 ${currentTheme.text}`}>
-                  <X size={24} />
-                </button>
-              </div>
-
-              <ModalMedia project={selectedProject} />
-
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col lg:flex-row gap-8">
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
-                      <Badge color={selectedProject.color} filled>{selectedProject.rarity}</Badge>
-                      <span className={`flex items-center gap-1 font-bold ${COLORS.orange.text} text-sm`}>
-                        <Star size={14} fill="currentColor" /> {selectedProject.rating} Rating
-                      </span>
-                    </div>
-                    <h2 className={`text-3xl font-black ${currentTheme.text} mb-4`}>{selectedProject.title}</h2>
-                    <p className={`${currentTheme.textMuted} font-medium leading-relaxed mb-6 whitespace-pre-line`}>
-                      {selectedProject.desc}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {selectedProject.tags.map((t) => <Badge key={t} color="gray">{t}</Badge>)}
-                    </div>
-
-                    {/* Arcane Lore */}
-                    <div className={`mb-6 p-4 rounded-xl border-2 border-dashed ${COLORS.purple.border} bg-opacity-5 ${COLORS.purple.bg}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className={`text-xs font-black uppercase ${COLORS.purple.text} flex items-center gap-2`}>
-                          <Sparkles size={14} /> Arcane Lore
-                        </h4>
-                        {!lore && !generatingLore && (
-                          <button onClick={generateLore}
-                            className={`text-xs font-bold underline hover:${COLORS.purple.text} transition-colors hover:scale-105 active:scale-95`}>
-                            ✨ Reveal Lore
-                          </button>
-                        )}
-                      </div>
-                      {generatingLore ? (
-                        <div className="animate-pulse text-sm text-gray-400">Consulting the ancient scrolls...</div>
-                      ) : lore ? (
-                        <p className={`text-sm italic ${currentTheme.text}`} style={{ animation: "slide-up 0.4s ease both" }}>"{lore}"</p>
-                      ) : (
-                        <p className="text-sm text-gray-400 italic">Unlock the magical history of this artifact...</p>
-                      )}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      {selectedProject.demoUrl ? (
-                        <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer"
-                          className={`flex-1 ${COLORS.pink.bg} text-white py-3 rounded-xl font-black uppercase shadow-[4px_4px_0px_0px_#1A1A1A] border-2 border-[#1A1A1A]
-                            hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#1A1A1A] active:translate-y-[3px] active:shadow-none
-                            transition-all flex items-center justify-center gap-2`}>
-                          <Gamepad2 size={20} /> Play Demo
-                        </a>
-                      ) : (
-                        <button disabled className="flex-1 py-3 rounded-xl font-black uppercase border-2 border-dashed border-gray-400 text-gray-400 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
-                          <Gamepad2 size={20} /> No Demo Yet
-                        </button>
-                      )}
-                      {selectedProject.githubUrl ? (
-                        <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer"
-                          className={`flex-1 ${currentTheme.cardBg} ${currentTheme.text} py-3 rounded-xl font-black uppercase shadow-[4px_4px_0px_0px_#1A1A1A]
-                            border-2 border-dashed ${currentTheme.text === "text-[#E0E0E0]" ? "border-gray-500" : "border-[#1A1A1A]"}
-                            hover:opacity-80 hover:translate-y-[2px] transition-all flex items-center justify-center gap-2`}>
-                          <Github size={20} /> Source Code
-                        </a>
-                      ) : (
-                        <button disabled className="flex-1 py-3 rounded-xl font-black uppercase border-2 border-dashed border-gray-400 text-gray-400 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
-                          <Github size={20} /> Private Repo
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  <PreviewSidebar project={selectedProject} currentTheme={currentTheme} />
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </section>

@@ -31,8 +31,6 @@ export const PORTFOLIO_DATA = {
 export const STATS = [
   { icon: "Code", val: "20+", label: "Projects Completed", color: "teal" },
   { icon: "Coffee", val: "∞", label: "Cups of Coffee", color: "pink" },
-  // { icon: "Trophy", val: "12", label: "Awards Won",       color: "orange" },
-  // { icon: "Star",   val: "100+", label: "Happy Clients",  color: "purple" },
 ];
 
 // --- Experience Section (Quest Log) ---
@@ -104,10 +102,10 @@ export const ALL_PROJECTS = [
   {
     id: 5,
     title: "Farm Shot: Slay the Dragon",
-    desc: "",
+    desc: "A puzzle game with an integrated level editor where players design challenges to defeat dragons. Features physical mechanics, rich logic tools, and direct player creation.",
     tags: ["Unity", "Level Editor", "Puzzle"],
     rarity: "EPIC",
-    rating: "",
+    rating: "4.8",
     color: "teal",
 
     thumbnailImage:
@@ -118,10 +116,28 @@ export const ALL_PROJECTS = [
       "https://play-lh.googleusercontent.com/7nUXcO9NRL2ktiE8J2YszC011PILRVZWh4d-jnUHlzykY5sdgP2ULe4wYciLo31s9v4F6WU7mqwGFkTn3zcmHo8=w2560-h1440-rw",
       "https://play-lh.googleusercontent.com/jypHxIq2t0SL1FSdws1N5ekn3HHEhR2FeBNy7a9EcHQDVNy08P7m6e4O4BEhuEAM_XmGMWmwYgFXNa2S-OIqFQ=w2560-h1440-rw"
     ],
-    githubUrl:
+    androidUrl:
       "https://play.google.com/store/apps/details?id=com.adsphire.farmshot&hl=en_IN",
-    demoUrl:
-      "https://play.google.com/store/apps/details?id=com.adsphire.farmshot&hl=en_IN",
+    webUrl:
+      "",
+    iosUrl: "https://apps.apple.com/us/app/farm-shot-slay-the-dragon/id6781264495",
+
+    challenges: [
+      {
+        problem: "Managing custom serialization/deserialization of player-created levels with complex physical structures and logic nodes in Unity.",
+        resolution: "Architected a binary-JSON serialization manager using version checks, saving levels as lightweight compressed text strings that are easy to upload and save locally."
+      },
+      {
+        problem: "Physics engine bottlenecks and garbage collection spikes when spawning hundreds of interactable grid elements on low-end Android devices.",
+        resolution: "Implemented dynamic physics sleeping thresholds, swapped heavy mesh colliders for simplified primitive box colliders, and integrated a robust Object Pooler to recycle active actors."
+      }
+    ],
+    metrics: {
+      role: "Lead Programmer",
+      duration: "3 Months",
+      engine: "Unity (C#)",
+      teamSize: "2 Developers"
+    }
   },
   {
     id: 1,
@@ -138,11 +154,10 @@ My Contributions:
 © All rights reserved to Studio Krew.`,
     tags: ["Unity", "Photon Fusion", "Backend Integration"],
     rarity: "LEGENDARY",
-    rating: "",
+    rating: "4.9",
     color: "orange",
 
-    // thumbnailImage: "https://play-lh.googleusercontent.com/EUSZc6mg3hYRAn6iXnnlwoGuDI4tJ6YvaCFPdHiDngYaHN-5mGpY1UfOojqzLxxnXIZKm7yvVB2EgDVqd3ruDN4=w480-h960",
-    thumbnailImage: `https://play-lh.googleusercontent.com/EUSZc6mg3hYRAn6iXnnlwoGuDI4tJ6YvaCFPdHiDngYaHN-5mGpY1UfOojqzLxxnXIZKm7yvVB2EgDVqd3ruDN4=w480-h960-rw`,
+    thumbnailImage: `https://play-lh.googleusercontent.com/bLVnP98rMIoipTxrh2NijZ8HGwBwmvoVrErN6xJOOe5F0GpRiU3o0nvg-95_KNMEec4MF13pa2-Dllng8-bEIQ=w416-h235-rw`,
     cardGradient: "linear-gradient(135deg, #1A1A1A 0%, #2a2a2a 100%)",
 
     youtubeId: "Riu23UEngwc",
@@ -153,10 +168,27 @@ My Contributions:
       "https://play-lh.googleusercontent.com/_FdBzszppThYkV6xfE6_PX40OR5AYLInnOT2Z0vNIud20J35HkItORIm2bLOBnKSWmRngpco4cdt_x5lrTUpgA=w5120-h2880",
     ],
 
-    githubUrl:
+    androidUrl:
       "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
-    demoUrl:
-      "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
+    iosUrl:
+      "https://apps.apple.com/us/app/krewgames/id6753206310",
+
+    challenges: [
+      {
+        problem: "Achieving pixel-perfect synchronization of physics-based 8 Ball Pool and Carrom shots over volatile network conditions without jitter.",
+        resolution: "Leveraged Photon Fusion's state authority with custom client-side prediction and server reconciliation, applying targeted physics state ticks for crucial shot events."
+      },
+      {
+        problem: "Designing a matchmaking queue that groups players fairly while scaling to multiple concurrent active clubs.",
+        resolution: "Developed a custom matchmaking algorithm matching players dynamically using ping times, geographical location logic."
+      }
+    ],
+    metrics: {
+      role: "Lead Multiplayer Programmer",
+      duration: "8 Months",
+      engine: "Unity & Photon Fusion",
+      teamSize: "2 Developers"
+    }
   },
   {
     id: 2,
@@ -175,10 +207,9 @@ My Contributions:
 © All rights reserved to Studio Krew.`,
     tags: ["Unity", "Ads", "Gameplay"],
     rarity: "EPIC",
-    rating: "",
+    rating: "4.7",
     color: "purple",
 
-    // thumbnailImage: "https://i.ytimg.com/an_webp/hcj0sin2S-I/mqdefault_6s.webp?du=3000&sqp=CIaX0M4G&rs=AOn4CLAjqWrCSX-nIB6N3dZp8uhIbFlA3g",
     thumbnailImage:
       "https://play-lh.googleusercontent.com/ethCPJOu3GnzCUeM7NPuU74ZHFLsyOqJdSHbwhPng5SWuhjwYz6QK9OGGyw32SuRLWg=s512-rw",
     cardGradient: "linear-gradient(135deg, #2D1B69 0%, #1A103C 100%)",
@@ -188,16 +219,27 @@ My Contributions:
       "https://play-lh.googleusercontent.com/eiN4mpn6BPHWMTlDE9ZIuENpLQT5L-SQnWih8Kf3Jbg0pWTZv4UdxoPn3PCuSX7s=w5120-h2880-rw",
       "https://play-lh.googleusercontent.com/mG4RFJRliMApnP1r_MWr3fSmIM7k6wcEQGTFbnbxBoF4okOwuLQlpzzmalLiT9CyJw=w5120-h2880-rw",
     ],
-    githubUrl:
+    androidUrl:
       "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
-    demoUrl:
-      "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
+    // githubUrl:
+    //   "https://github.com/koushikr0y/challenge-master-demo",
+    iosUrl: "https://apps.apple.com/us/app/challenge-master-2-player/id6464290445",
+
+    challenges: [
+      {
+        problem: "Structuring a multi-game architecture where 20+ mini-games can load dynamically without memory leaks or state bleeding.",
+        resolution: "Utilized the Service Locator pattern and ScriptableObjects to cleanly isolate and store each game's configuration, using clean scene unloading protocols to clear resources."
+      },
+      {
+        problem: "Integrating preloaded interstitial and rewarded video ads without causing frame drops or breaking the flow of rapid mini-game switching.",
+        resolution: "Implemented a wrapper over Google Mobile Ads SDK that preloads ad placements asynchronously in loading background steps, showing them only at structured downtime intervals."
+      }
+    ],
+    metrics: {
+      role: "Lead Unity Developer",
+      duration: "4 Months",
+      engine: "Unity 2D & AdMob SDK",
+      teamSize: "3 Developers"
+    }
   },
 ];
-
-// export const socialLinks = [
-//   { Icon: Github, url: "https://github.com/yourusername" },
-//   { Icon: Linkedin, url: "https://linkedin.com/in/yourusername" },
-//   { Icon: Twitter, url: "https://twitter.com/yourusername" },
-//   { Icon: Mail, url: "mailto:youremail@example.com" },
-// ];

@@ -4,6 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { Card } from "../components/UI";
 import { model } from "../config/gemini";
+import { playSuccess } from "../utils/soundFX";
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -130,6 +131,7 @@ const Contact = () => {
 
     setSending(true);
     setTimeout(() => {
+      playSuccess();
       const subject = `New Quest from ${name || "Adventurer"}`;
       const body = `Adventurer Name: ${name}\nContact Email: ${email}\n\nQuest Details:\n${message}`;
       window.location.href = `mailto:koushik22work@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -142,7 +144,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-20 px-4 max-w-6xl mx-auto mb-20">
+    <section id="contact" className="py-20 px-4 max-w-6xl mx-auto mb-20">
 
       {/* Header */}
       <div
