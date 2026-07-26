@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
 import LoadingScreen from "./components/LoadingScreen";
-import FamiliarChat from "./components/FamiliarChat";
+// import FamiliarChat from "./components/FamiliarChat";
 import Navbar from "./sections/Navbar";
 import Hero from "./sections/Hero";
 import Stats from "./sections/Stats";
@@ -32,7 +32,7 @@ export default function App() {
       <Experience />
       <Projects />
       <Contact />
-      <FamiliarChat />
+      {/* <FamiliarChat /> */}
       <Footer />
     </ThemeProvider>
   );

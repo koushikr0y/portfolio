@@ -115,10 +115,10 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className={`absolute -bottom-2 -right-2 ${currentTheme.cardBg} border-2 ${currentTheme.cardBorder} rounded-full p-2 z-20
+        {/* <div className={`absolute -bottom-2 -right-2 ${currentTheme.cardBg} border-2 ${currentTheme.cardBorder} rounded-full p-2 z-20
           transition-all duration-300 group-hover:rotate-[20deg] group-hover:scale-125 group-hover:border-[#9B5DE5]`}>
           <Gamepad2 size={20} className={`${COLORS.purple.text} transition-transform`} />
-        </div>
+        </div> */}
       </div>
 
       {/* Press Start */}

@@ -37,22 +37,6 @@ export const STATS = [
 
 // --- Experience Section (Quest Log) ---
 export const JOBS = [
-  // {
-  //   title: "Unity Game Developer",
-  //   company: "Studio Krew",
-  //   location: "Remote",
-  //   date: "Aug 2023 - Present",
-  //   status: "ACTIVE",
-  //   xp: "+5000 XP",
-  //   desc: "Leading development of multiplayer games, managing a team of 3 developers, and architecting game systems.",
-  //   achievements: [
-  //     "Built multiplayer systems handling",
-  //     "Optimized code with code reviews and refactoring",
-  //     "Team Lead to guide juniors making imporrtant decision in buillding projects",
-  //   ],
-  //   stack: ["Unity", "C#", "Sockets", "Multiplayer (Fusion + Netcode)","Hardware Integrations Software"],
-  //   color: "orange",
-  // },
   {
     title: "Unity Game Developer",
     company: "Studio Krew",
@@ -113,33 +97,32 @@ export const JOBS = [
     ],
 
     color: "purple",
-  }
+  },
 ];
 
-// --- Projects Section ---
-// ============================================================
-// HOW TO FILL IN YOUR PROJECT DATA:
-//
-// thumbnailImage  → URL of the card thumbnail image.
-//                   Use a direct image URL (jpg/png/webp/gif).
-//                   If left null, falls back to the gradient `cardGradient`.
-//
-// cardGradient    → CSS gradient shown on the card when no thumbnailImage.
-//                   e.g. "linear-gradient(135deg, #1A1A1A 0%, #FF9F1C 100%)"
-//
-// youtubeId       → The video ID from a YouTube URL.
-//                   e.g. for https://www.youtube.com/watch?v=dQw4w9WgXcQ
-//                   the ID is "dQw4w9WgXcQ"
-//                   Set to null if there's no video — a static image will show instead.
-//
-// previewImages   → Array of up to 4 screenshot URLs shown in the modal sidebar.
-//                   e.g. ["https://i.imgur.com/abc.jpg", "https://i.imgur.com/xyz.jpg"]
-//                   Leave as [] if you have no screenshots.
-//
-// githubUrl       → Full GitHub repo URL, or null to hide the button.
-// demoUrl         → Full demo/itch.io/live URL, or null to hide the button.
-// ============================================================
 export const ALL_PROJECTS = [
+  {
+    id: 5,
+    title: "Farm Shot: Slay the Dragon",
+    desc: "",
+    tags: ["Unity", "Level Editor", "Puzzle"],
+    rarity: "EPIC",
+    rating: "",
+    color: "teal",
+
+    thumbnailImage:
+      "https://play-lh.googleusercontent.com/ftMA-91VujhlovCUzL1T15NbSzrWdZzsr5AG14lytfkRkmdg0cy_TA0ToogP8yI0VjztYWIW_DOUs1JelzHZ=w416-h235-rw",
+    cardGradient: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+    youtubeId: "",
+    previewImages: [
+      "https://play-lh.googleusercontent.com/7nUXcO9NRL2ktiE8J2YszC011PILRVZWh4d-jnUHlzykY5sdgP2ULe4wYciLo31s9v4F6WU7mqwGFkTn3zcmHo8=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/jypHxIq2t0SL1FSdws1N5ekn3HHEhR2FeBNy7a9EcHQDVNy08P7m6e4O4BEhuEAM_XmGMWmwYgFXNa2S-OIqFQ=w2560-h1440-rw"
+    ],
+    githubUrl:
+      "https://play.google.com/store/apps/details?id=com.adsphire.farmshot&hl=en_IN",
+    demoUrl:
+      "https://play.google.com/store/apps/details?id=com.adsphire.farmshot&hl=en_IN",
+  },
   {
     id: 1,
     title: "KrewGames Multiplayer Club",
@@ -152,7 +135,7 @@ My Contributions:
 • Optimized low-latency gameplay across devices  
 • Implemented fair-play systems & anti-cheat logic  
 🔒 Safe system — No gambling, no cashouts.
-© All rights reserved to Krew Games.`,
+© All rights reserved to Studio Krew.`,
     tags: ["Unity", "Photon Fusion", "Backend Integration"],
     rarity: "LEGENDARY",
     rating: "",
@@ -167,11 +150,13 @@ My Contributions:
     previewImages: [
       "https://play-lh.googleusercontent.com/4m7Ip963PexEB_K1NYOdeGOY1cCWogn15T9od0YQA2kYxKxrlzlynhKNe5VGe5PcvJtLMAF-0cADP98MiqRak0M=w5120-h2880-rw",
       "https://play-lh.googleusercontent.com/fcYrOHUu92DLqXRA5iBAavKFYQp5KepZTvCifupGeCYyUoelvoa0Hl8fd3--u4Jb3OCb28uM3HZLuA3LU5ldvJQ=w5120-h2880",
-      "https://play-lh.googleusercontent.com/_FdBzszppThYkV6xfE6_PX40OR5AYLInnOT2Z0vNIud20J35HkItORIm2bLOBnKSWmRngpco4cdt_x5lrTUpgA=w5120-h2880"
+      "https://play-lh.googleusercontent.com/_FdBzszppThYkV6xfE6_PX40OR5AYLInnOT2Z0vNIud20J35HkItORIm2bLOBnKSWmRngpco4cdt_x5lrTUpgA=w5120-h2880",
     ],
 
-    githubUrl: "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
-    demoUrl: "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
+    githubUrl:
+      "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
+    demoUrl:
+      "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
   },
   {
     id: 2,
@@ -187,68 +172,27 @@ My Contributions:
 • Created modular systems for adding new mini-games easily  
 
 🎮 Fully offline experience with engaging casual gameplay.
-© All rights reserved to Krew Games.`,
+© All rights reserved to Studio Krew.`,
     tags: ["Unity", "Ads", "Gameplay"],
     rarity: "EPIC",
     rating: "",
     color: "purple",
 
     // thumbnailImage: "https://i.ytimg.com/an_webp/hcj0sin2S-I/mqdefault_6s.webp?du=3000&sqp=CIaX0M4G&rs=AOn4CLAjqWrCSX-nIB6N3dZp8uhIbFlA3g",
-    thumbnailImage: "https://play-lh.googleusercontent.com/ethCPJOu3GnzCUeM7NPuU74ZHFLsyOqJdSHbwhPng5SWuhjwYz6QK9OGGyw32SuRLWg=s512-rw",
+    thumbnailImage:
+      "https://play-lh.googleusercontent.com/ethCPJOu3GnzCUeM7NPuU74ZHFLsyOqJdSHbwhPng5SWuhjwYz6QK9OGGyw32SuRLWg=s512-rw",
     cardGradient: "linear-gradient(135deg, #2D1B69 0%, #1A103C 100%)",
     youtubeId: "hcj0sin2S-I",
-    previewImages: ["https://play-lh.googleusercontent.com/ezwQan5xOkQa_LCWtz-GYUMAM71X7znMXFBqC0P18ovZ-cXof2bGQSWqcT2PgUMh4bs=w5120-h2880-rw", "https://play-lh.googleusercontent.com/eiN4mpn6BPHWMTlDE9ZIuENpLQT5L-SQnWih8Kf3Jbg0pWTZv4UdxoPn3PCuSX7s=w5120-h2880-rw", "https://play-lh.googleusercontent.com/mG4RFJRliMApnP1r_MWr3fSmIM7k6wcEQGTFbnbxBoF4okOwuLQlpzzmalLiT9CyJw=w5120-h2880-rw"],
-    githubUrl: "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
-    demoUrl: "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
+    previewImages: [
+      "https://play-lh.googleusercontent.com/ezwQan5xOkQa_LCWtz-GYUMAM71X7znMXFBqC0P18ovZ-cXof2bGQSWqcT2PgUMh4bs=w5120-h2880-rw",
+      "https://play-lh.googleusercontent.com/eiN4mpn6BPHWMTlDE9ZIuENpLQT5L-SQnWih8Kf3Jbg0pWTZv4UdxoPn3PCuSX7s=w5120-h2880-rw",
+      "https://play-lh.googleusercontent.com/mG4RFJRliMApnP1r_MWr3fSmIM7k6wcEQGTFbnbxBoF4okOwuLQlpzzmalLiT9CyJw=w5120-h2880-rw",
+    ],
+    githubUrl:
+      "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
+    demoUrl:
+      "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
   },
-  // {
-  //   id: 4,
-  //   title: "Cosmic Trader",
-  //   desc: "Space simulation economy game. Trade resources, build stations, and defend trade routes.",
-  //   tags: ["React", "Three.js", "Node.js"],
-  //   rarity: "COMMON",
-  //   rating: "4.5",
-  //   color: "pink",
-
-  //   thumbnailImage: null,
-  //   cardGradient: "linear-gradient(135deg, #833AB4 0%, #FD1D1D 100%)",
-  //   youtubeId: null,
-  //   previewImages: [],
-  //   githubUrl: null,
-  //   demoUrl: null,
-  // },
-  // {
-  //   id: 5,
-  //   title: "Forest Guardian",
-  //   desc: "Relaxing VR experience where you grow and protect a magical procedural forest.",
-  //   tags: ["Unity", "VR", "Oculus SDK"],
-  //   rarity: "EPIC",
-  //   rating: "4.8",
-  //   color: "teal",
-
-  //   thumbnailImage: null,
-  //   cardGradient: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
-  //   youtubeId: null,
-  //   previewImages: [],
-  //   githubUrl: null,
-  //   demoUrl: null,
-  // },
-  // {
-  //   id: 6,
-  //   title: "Retro Arcade Hub",
-  //   desc: "A collection of 8-bit classic remakes with global leaderboards and tournaments.",
-  //   tags: ["Phaser.js", "Socket.io", "MongoDB"],
-  //   rarity: "RARE",
-  //   rating: "4.6",
-  //   color: "orange",
-
-  //   thumbnailImage: null,
-  //   cardGradient: "linear-gradient(135deg, #f12711 0%, #f5af19 100%)",
-  //   youtubeId: null,
-  //   previewImages: [],
-  //   githubUrl: null,
-  //   demoUrl: null,
-  // },
 ];
 
 // export const socialLinks = [
