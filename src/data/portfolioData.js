@@ -362,7 +362,7 @@ My Contributions:
   {
     id: 6,
     title: "Gulp City: Eat & Grow",
-    desc: "Open the hole. Swallow the whole city. How big can you get?",
+    desc: "Open the hole. Swallow the whole city. How big can you get? Gulp City: Eat & Grow drops you into a packed urban playground with one simple, addictive goal: eat everything in sight. Start tiny, swallowing traffic cones, benches and street signs. Grow bigger and the cars start falling in. Keep going and entire buildings, bridges and landmarks vanish into your hole. The more you devour, the bigger you become, and the bigger you become, the more you can swallow. It is the kind of pick-up-and-play arcade game you open for one round and somehow finish twenty minutes later.",
     tags: ["Unity3D", "Environment Design", "Game Mechanics"],
     rarity: "",
     rating: "4",
@@ -373,8 +373,9 @@ My Contributions:
     cardGradient: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
     youtubeId: "",
     previewImages: [
-      "https://play-lh.googleusercontent.com/7nUXcO9NRL2ktiE8J2YszC011PILRVZWh4d-jnUHlzykY5sdgP2ULe4wYciLo31s9v4F6WU7mqwGFkTn3zcmHo8=w2560-h1440-rw",
-      "https://play-lh.googleusercontent.com/jypHxIq2t0SL1FSdws1N5ekn3HHEhR2FeBNy7a9EcHQDVNy08P7m6e4O4BEhuEAM_XmGMWmwYgFXNa2S-OIqFQ=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/8DxjBgY1AOfQZJy-vVHWJjouJJ5JcvryQaB1Z_ih3pr2KmAp1XK1SkBhiARBOMvGHI7LAegffbpMWMAzdX0lZA=w2560-h1440",
+      "https://play-lh.googleusercontent.com/8WKfYU_oyCRlBstwwAbaQmMjFdoxrG-29EAZzEathsobqfDnWUtV971fEX9KM7XBzWxmKfCXXmY-2zEXsedD_A=w2560-h1440",
+      "https://play-lh.googleusercontent.com/8WKfYU_oyCRlBstwwAbaQmMjFdoxrG-29EAZzEathsobqfDnWUtV971fEX9KM7XBzWxmKfCXXmY-2zEXsedD_A=w2560-h1440",
     ],
     androidUrl:
       "https://play.google.com/store/apps/details?id=com.adsphire.gulpcity&hl=en_IN",
