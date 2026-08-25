@@ -91,9 +91,9 @@ export default function App() {
           <Navbar onOpenArcade={() => setShowArcade(true)} />
           <Hero onOpenArcade={() => setShowArcade(true)} />
           <Stats />
+          <Projects onSelectProject={handleSelectProject} />
           <Skills />
           <Experience />
-          <Projects onSelectProject={handleSelectProject} />
           <Contact />
           <Footer />
         </>

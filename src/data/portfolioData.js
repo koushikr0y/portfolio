@@ -8,23 +8,8 @@ export const PORTFOLIO_DATA = {
     design: ["Level Design", "Systems Design", "Narrative"],
     technical: ["Shaders", "Optimization", "VFX Graph"],
   },
-  jobs: [
-    {
-      company: "Epic Game Studios",
-      role: "Lead Game Developer",
-      desc: "Built AAA multiplayer games.",
-    },
-    {
-      company: "Indie Dreams",
-      role: "Senior Programmer",
-      desc: "Indie physics and AI systems.",
-    },
-  ],
-  projects: [
-    { title: "Neon Odyssey", type: "Cyberpunk Action RPG" },
-    { title: "Pixel Dungeons", type: "Roguelike" },
-    { title: "Speed Demons", type: "Racing" },
-  ],
+  jobs: [],
+  projects: [],
 };
 
 // --- Stats Section (Character Sheet) ---
@@ -56,7 +41,7 @@ export const JOBS = [
     ],
 
     stack: [
-      "Unity",
+      "Unity3D & 2D",
       "C#",
       "Sockets",
       "Multiplayer (Fusion + Netcode)",
@@ -70,7 +55,7 @@ export const JOBS = [
     title: "Unity Gameplay Programmer",
     company: "Digital Jalebi",
     location: "Noida, India",
-    date: "Dec 2022 - Jun 2023",
+    date: "Dec 2022 - Jul 2023",
     status: "COMPLETED",
     xp: "+3500 XP",
     desc: "Gameplay programmer focused on interactive and event-based applications, specializing in Augmented Reality experiences and performance optimization for mobile and hardware-integrated systems.",
@@ -114,30 +99,34 @@ export const ALL_PROJECTS = [
     youtubeId: "",
     previewImages: [
       "https://play-lh.googleusercontent.com/7nUXcO9NRL2ktiE8J2YszC011PILRVZWh4d-jnUHlzykY5sdgP2ULe4wYciLo31s9v4F6WU7mqwGFkTn3zcmHo8=w2560-h1440-rw",
-      "https://play-lh.googleusercontent.com/jypHxIq2t0SL1FSdws1N5ekn3HHEhR2FeBNy7a9EcHQDVNy08P7m6e4O4BEhuEAM_XmGMWmwYgFXNa2S-OIqFQ=w2560-h1440-rw"
+      "https://play-lh.googleusercontent.com/jypHxIq2t0SL1FSdws1N5ekn3HHEhR2FeBNy7a9EcHQDVNy08P7m6e4O4BEhuEAM_XmGMWmwYgFXNa2S-OIqFQ=w2560-h1440-rw",
     ],
     androidUrl:
       "https://play.google.com/store/apps/details?id=com.adsphire.farmshot&hl=en_IN",
-    webUrl:
-      "",
-    iosUrl: "https://apps.apple.com/us/app/farm-shot-slay-the-dragon/id6781264495",
+    webUrl: "",
+    iosUrl:
+      "https://apps.apple.com/us/app/farm-shot-slay-the-dragon/id6781264495",
 
     challenges: [
       {
-        problem: "Managing custom serialization/deserialization of player-created levels with complex physical structures and logic nodes in Unity.",
-        resolution: "Architected a binary-JSON serialization manager using version checks, saving levels as lightweight compressed text strings that are easy to upload and save locally."
+        problem:
+          "Managing custom serialization/deserialization of player-created levels with complex physical structures and logic nodes in Unity.",
+        resolution:
+          "Architected a binary-JSON serialization manager using version checks, saving levels as lightweight compressed text strings that are easy to upload and save locally.",
       },
       {
-        problem: "Physics engine bottlenecks and garbage collection spikes when spawning hundreds of interactable grid elements on low-end Android devices.",
-        resolution: "Implemented dynamic physics sleeping thresholds, swapped heavy mesh colliders for simplified primitive box colliders, and integrated a robust Object Pooler to recycle active actors."
-      }
+        problem:
+          "Physics engine bottlenecks and garbage collection spikes when spawning hundreds of interactable grid elements on low-end Android devices.",
+        resolution:
+          "Implemented dynamic physics sleeping thresholds, swapped heavy mesh colliders for simplified primitive box colliders, and integrated a robust Object Pooler to recycle active actors.",
+      },
     ],
     metrics: {
       role: "Lead Programmer",
       duration: "3 Months",
       engine: "Unity (C#)",
-      teamSize: "2 Developers"
-    }
+      teamSize: "2 Developers",
+    },
   },
   {
     id: 1,
@@ -170,25 +159,28 @@ My Contributions:
 
     androidUrl:
       "https://play.google.com/store/apps/details?id=com.studiokrew.krewgames",
-    iosUrl:
-      "https://apps.apple.com/us/app/krewgames/id6753206310",
+    iosUrl: "https://apps.apple.com/us/app/krewgames/id6753206310",
 
     challenges: [
       {
-        problem: "Achieving pixel-perfect synchronization of physics-based 8 Ball Pool and Carrom shots over volatile network conditions without jitter.",
-        resolution: "Leveraged Photon Fusion's state authority with custom client-side prediction and server reconciliation, applying targeted physics state ticks for crucial shot events."
+        problem:
+          "Achieving pixel-perfect synchronization of physics-based 8 Ball Pool and Carrom shots over volatile network conditions without jitter.",
+        resolution:
+          "Leveraged Photon Fusion's state authority with custom client-side prediction and server reconciliation, applying targeted physics state ticks for crucial shot events.",
       },
       {
-        problem: "Designing a matchmaking queue that groups players fairly while scaling to multiple concurrent active clubs.",
-        resolution: "Developed a custom matchmaking algorithm matching players dynamically using ping times, geographical location logic."
-      }
+        problem:
+          "Designing a matchmaking queue that groups players fairly while scaling to multiple concurrent active clubs.",
+        resolution:
+          "Developed a custom matchmaking algorithm matching players dynamically using ping times, geographical location logic.",
+      },
     ],
     metrics: {
       role: "Lead Multiplayer Programmer",
       duration: "8 Months",
       engine: "Unity & Photon Fusion",
-      teamSize: "2 Developers"
-    }
+      teamSize: "2 Developers",
+    },
   },
   {
     id: 2,
@@ -216,6 +208,8 @@ My Contributions:
     youtubeId: "hcj0sin2S-I",
     previewImages: [
       "https://play-lh.googleusercontent.com/ezwQan5xOkQa_LCWtz-GYUMAM71X7znMXFBqC0P18ovZ-cXof2bGQSWqcT2PgUMh4bs=w5120-h2880-rw",
+      "https://play-lh.googleusercontent.com/KhkO3lB0qd6u242SSDPma6LM_kc-7rgN2XS_-VKx7wrlfix8qC0T8BYncl9URy_bYSvCohm3c3gABtYBKjkLVQ=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/5leYxJlhoaLtD3DTy5d6kPtTJlVGPRzlCkOZkmWdgWO35M56c9MsLrswdTfAbepJNWKFRVfSn72ePMkp4OLw=w2560-h1440-rw",
       "https://play-lh.googleusercontent.com/eiN4mpn6BPHWMTlDE9ZIuENpLQT5L-SQnWih8Kf3Jbg0pWTZv4UdxoPn3PCuSX7s=w5120-h2880-rw",
       "https://play-lh.googleusercontent.com/mG4RFJRliMApnP1r_MWr3fSmIM7k6wcEQGTFbnbxBoF4okOwuLQlpzzmalLiT9CyJw=w5120-h2880-rw",
     ],
@@ -223,23 +217,189 @@ My Contributions:
       "https://play.google.com/store/apps/details?id=com.studiokrew.challengemaster",
     // githubUrl:
     //   "https://github.com/koushikr0y/challenge-master-demo",
-    iosUrl: "https://apps.apple.com/us/app/challenge-master-2-player/id6464290445",
+    iosUrl:
+      "https://apps.apple.com/us/app/challenge-master-2-player/id6464290445",
 
     challenges: [
       {
-        problem: "Structuring a multi-game architecture where 20+ mini-games can load dynamically without memory leaks or state bleeding.",
-        resolution: "Utilized the Service Locator pattern and ScriptableObjects to cleanly isolate and store each game's configuration, using clean scene unloading protocols to clear resources."
+        problem:
+          "Structuring a multi-game architecture where 20+ mini-games can load dynamically without memory leaks or state bleeding.",
+        resolution:
+          "Utilized the Service Locator pattern and ScriptableObjects to cleanly isolate and store each game's configuration, using clean scene unloading protocols to clear resources.",
       },
       {
-        problem: "Integrating preloaded interstitial and rewarded video ads without causing frame drops or breaking the flow of rapid mini-game switching.",
-        resolution: "Implemented a wrapper over Google Mobile Ads SDK that preloads ad placements asynchronously in loading background steps, showing them only at structured downtime intervals."
-      }
+        problem:
+          "Integrating preloaded interstitial and rewarded video ads without causing frame drops or breaking the flow of rapid mini-game switching.",
+        resolution:
+          "Implemented a wrapper over Google Mobile Ads SDK that preloads ad placements asynchronously in loading background steps, showing them only at structured downtime intervals.",
+      },
     ],
     metrics: {
       role: "Lead Unity Developer",
       duration: "4 Months",
       engine: "Unity 2D & AdMob SDK",
-      teamSize: "3 Developers"
-    }
+      teamSize: "3 Developers",
+    },
+  },
+  {
+    id: 3,
+    title: "Offline Games: No WiFi Fun",
+    desc: `Play mini games offline with Offline Games: No WiFi Fun! Enjoy 30+ casual games without internet – perfect for flights, commutes, or relaxing anywhere. Dive into mini offline games like 2048, Sudoku, and Frozen Beak, plus offline 2 player games for epic battles on one device. Fun for kids, teens, adults, and seniors!.
+
+My Contributions:
+• Built scalable multi-game architecture supporting 20+ mini-games  
+• Designed 2-player local gameplay & AI systems  
+• Implemented ad monetization (rewarded & interstitial ads)  
+• Developed smooth game switching & state management  
+• Optimized performance for low-end devices  
+• Created modular systems for adding new mini-games easily  
+
+🎮 Fully offline experience with engaging casual gameplay.
+© All rights reserved to Studio Krew.`,
+    tags: ["Unity", "Ads", "Gameplay"],
+    rarity: "EPIC",
+    rating: "4.7",
+    color: "pink",
+
+    thumbnailImage:
+      "https://play-lh.googleusercontent.com/NESSETM20TervpUNituQ9PeV-qgBcaCJR_4Ha9MUoaLcKTDwgGZZIXepM9XUV28ehFiofmUPrtqIzLwQ1f4f=w2560-h1440-rw",
+    cardGradient: "linear-gradient(135deg, #2D1B69 0%, #1A103C 100%)",
+    youtubeId: "hcj0sin2S-I",
+    previewImages: [
+      "https://play-lh.googleusercontent.com/sKmWbVvYxjJowtihROMuPl6jzw2xRb9pwxm-AdNqbRA4IHQQMRM7bQUDCpoyDeKJe_HeXhDusHrqS9hnpTLA3w=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/ybo4qByNVVnxzyr0qukjyew-g1uuqhLAOUBByAqhnBilNdjGxJSuuBFz_8k--kk2KSKYzKf95j6SuzL1EoOVFGQ=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/8B4JkB55gYl1JYVVZIe2z5pWslnsx-SGSgEkKY0H_L6g387zc73vLfoXWsUAIoo-Fk823Iw646wr7DfzEfQeGg=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/OGw5kdTmSXXw0vNtu0_Yru_QZOGY_Y9JA5eNc-ZoQhTii7sIJa2rAKnnsI1z0psJ459Wn2AKcFTnKRV4Qo4g=w2560-h1440-rw",
+    ],
+    androidUrl:
+      "https://play.google.com/store/apps/details?id=com.studiokrew.lolgames&hl=en_IN",
+    // githubUrl:
+    //   "https://github.com/koushikr0y/challenge-master-demo",
+    iosUrl:
+      "https://apps.apple.com/us/app/offline-games-no-wifi-fun/id6502832695",
+
+    challenges: [
+      // {
+      //   problem:
+      //     "Structuring a multi-game architecture where 20+ mini-games can load dynamically without memory leaks or state bleeding.",
+      //   resolution:
+      //     "Utilized the Service Locator pattern and ScriptableObjects to cleanly isolate and store each game's configuration, using clean scene unloading protocols to clear resources.",
+      // },
+      // {
+      //   problem:
+      //     "Integrating preloaded interstitial and rewarded video ads without causing frame drops or breaking the flow of rapid mini-game switching.",
+      //   resolution:
+      //     "Implemented a wrapper over Google Mobile Ads SDK that preloads ad placements asynchronously in loading background steps, showing them only at structured downtime intervals.",
+      // },
+    ],
+    metrics: {
+      role: "Lead Unity Developer",
+      duration: "4 Months",
+      engine: "Unity 2D,3D & AdMob SDK",
+      teamSize: "2 Developers",
+    },
+  },
+  {
+    id: 4,
+    title: "Ladder Dash: Endless",
+    desc: `One ladder. Unlimited ways to fall off it.
+
+Ladder Dash puts you on an endless climb where the only thing between you and the top is your own reaction time. Tap to grab the next rung, swipe to dodge the obstacle flying at your face, and somehow keep climbing while the whole thing gets faster and meaner the higher you go.
+
+It sounds simple. It is not simple.
+
+Key Features:
+• Addictive Physics-Based Climbing: Simple one-tap controls for intuitive jumping and movement.
+• Endless Procedural Generation: Every climb features unique platform layouts and moving obstacles, ensuring no two runs are ever the same.
+• Responsive Ragdoll Physics: Experience satisfying and hilarious ragdoll physics for failed attempts.
+• Dynamic Difficulty: The game gets progressively harder with faster obstacles and tighter gaps as you climb higher.
+
+My Contributions:
+• Invent a fun physics game on unity with procedurally generated levels and obstacles.
+• Procedurally generated levels and obstacles  
+• Dynamic obstacle generation and placement logic. 
+• Created smooth game switching & state management 
+© All rights reserved to Studio Krew.`,
+    tags: ["Unity", "Ads", "Gameplay"],
+    rarity: "EPIC",
+    rating: "4.7",
+    color: "orange",
+
+    thumbnailImage:
+      "https://play-lh.googleusercontent.com/xy3pWdYLbbgeD_3WOVEhWPZ-Hvofn6Rczl2rXnywpoyxTGbWk00MmHV1-OOibry3qSfEw-7gI6-xy2zjB3n_=w2560-h1440-rw",
+    cardGradient: "linear-gradient(135deg, #2D1B69 0%, #1A103C 100%)",
+    youtubeId: "",
+    previewImages: [
+      "https://play-lh.googleusercontent.com/IzeVXlcewzFgp9I9CCUfSuTj8ijcrbku1nBpZ9fvPYIDKj_DspnFEuo8zOzbRuZzWZiRsfEfPcOa6NCEM9k15g=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/RhEXi0I7bEf6vhJRzQ6shuLulxJQNDPmocFWYL160U9fKCYaNOSyupUEFX-G1bKkpRo4uE_UF_kpzwi4SqvXUA=w2560-h1440-rw ",
+      "https://play-lh.googleusercontent.com/E-5jGGLvCRGJ9-z9OqEXBxCfI-g4yoBaqNV5D6Tv6xdjWTcsXAcfkTGISL9uRdLCzgFNCjuFh27yBFi9I0aLFQ=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/WBHwcNLSbKJUE9lyd8PA3iYgNP_0_7xbQNhR2-Q0rU83QDOWlSk_hWQt-ejx4EuEyPj_0NqmxbGK2bNLIg8shQ=w2560-h1440-rw",
+    ],
+    androidUrl:
+      "https://play.google.com/store/apps/details?id=com.studiokrew.ladderdash&hl=en_IN",
+    iosUrl:
+      "https://apps.apple.com/us/app/ladder-dash-endless-climber/id6465991151",
+
+    challenges: [
+      {
+        problem:
+          "Procedurally generated levels and obstacles, Implemented smooth game switching & state management",
+        resolution:
+          "Procedurally generated levels and obstacles, Implemented smooth game switching & state management",
+      },
+      {
+        problem: "Dynamic obstacle generation and placement logic.",
+        resolution: "Dynamic obstacle generation and placement logic.",
+      },
+    ],
+    metrics: {
+      role: "Lead Unity Developer",
+      duration: "4 Months",
+      engine: "Unity 2D,3D & AdMob SDK",
+      teamSize: "2 Developers",
+    },
+  },
+  {
+    id: 6,
+    title: "Gulp City: Eat & Grow",
+    desc: "Open the hole. Swallow the whole city. How big can you get?",
+    tags: ["Unity3D", "Environment Design", "Game Mechanics"],
+    rarity: "",
+    rating: "4",
+    color: "teal",
+
+    thumbnailImage:
+      "https://play-lh.googleusercontent.com/8DxjBgY1AOfQZJy-vVHWJjouJJ5JcvryQaB1Z_ih3pr2KmAp1XK1SkBhiARBOMvGHI7LAegffbpMWMAzdX0lZA=w2560-h1440-rw",
+    cardGradient: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+    youtubeId: "",
+    previewImages: [
+      "https://play-lh.googleusercontent.com/7nUXcO9NRL2ktiE8J2YszC011PILRVZWh4d-jnUHlzykY5sdgP2ULe4wYciLo31s9v4F6WU7mqwGFkTn3zcmHo8=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/jypHxIq2t0SL1FSdws1N5ekn3HHEhR2FeBNy7a9EcHQDVNy08P7m6e4O4BEhuEAM_XmGMWmwYgFXNa2S-OIqFQ=w2560-h1440-rw",
+    ],
+    androidUrl:
+      "https://play.google.com/store/apps/details?id=com.adsphire.gulpcity&hl=en_IN",
+    webUrl: "",
+    iosUrl: "",
+
+    challenges: [
+      {
+        problem:
+          "Managing custom serialization/deserialization of player-created levels with complex physical structures and logic nodes in Unity.",
+        resolution:
+          "Architected a binary-JSON serialization manager using version checks, saving levels as lightweight compressed text strings that are easy to upload and save locally.",
+      },
+      {
+        problem:
+          "Physics engine bottlenecks and garbage collection spikes when spawning hundreds of interactable grid elements on low-end Android devices.",
+        resolution:
+          "Implemented dynamic physics sleeping thresholds, swapped heavy mesh colliders for simplified primitive box colliders, and integrated a robust Object Pooler to recycle active actors.",
+      },
+    ],
+    metrics: {
+      role: "Lead Programmer",
+      duration: "3 Months",
+      engine: "Unity (C#)",
+      teamSize: "2 Developers",
+    },
   },
 ];
