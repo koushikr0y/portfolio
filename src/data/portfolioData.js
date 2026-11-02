@@ -85,6 +85,52 @@ export const JOBS = [
 
 export const ALL_PROJECTS = [
   {
+    id: 7,
+    title: "Top Champs: Boxing Card Battle",
+    desc: `Step into the ring with Top Champs, the boxing strategy card game built around real professional fighters. Collect fighter cards, read tactical matchups, and make corner decisions that win the bout. Features real boxers, trait synergies, and competitive league rankings.`,
+    tags: ["Unity", "Card Battler", "Sports Strategy"],
+    rarity: "EPIC",
+    rating: "4.8",
+    color: "orange",
+
+    thumbnailImage:
+      "https://www.topchampsboxing.com/assets/boxing-card-battle.jpg",
+    cardGradient: "linear-gradient(135deg, #FF9F1C 0%, #1A1A1A 100%)",
+    youtubeId: "",
+    previewImages: [
+      "https://play-lh.googleusercontent.com/-bVJ2ut0u8V0fifS0vhuNp9VG2cQ0ddQHdVWa6vCdoTVLxVhuU3p47bOUhgB1QDvw0nJgZOkTg-Xm5VbGXh2DQ=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/0p2c0WI7roiEoM9udVIrbjv7YGpOufL2Rl3FatAFXWS_merKWEv4O1_r2lT6NnU0Un61qlxgnFRjN5mByLVm=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/I4ePHhx6J1FKdz_gQJe9DF6bnMBPevdWALaCZFLtVLD6pt7kqrt21b5oxo5OSwLDBXTKjojliqiIqJyFCb2JOAU=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/AV6HPmLzjbVnbIOzIlxW8f8y5GcuawxptnLYwaLynenUh3m2WpTayTsS-yVLw3vfJ14U7bbkma3-dEY6zNhn=w2560-h1440-rw",
+      "https://play-lh.googleusercontent.com/NhDIKj9X-jE7Aw0tDNf5uY4oSqs7Y2y_mwJLKNeGDi9oI07mm1EQ5U9IBfOXisyNSPR1xBForhKaMR06oXTq=w2560-h1440-rw",
+    ],
+    androidUrl:
+      "https://play.google.com/store/apps/details?id=com.boxing.topchamps&hl=en_IN",
+    webUrl: "",
+    iosUrl: "",
+
+    challenges: [
+      {
+        problem:
+          "Balancing a complex turn-based card battle system with varied fighter traits (Precision, Pressure, Evasion), attribute multipliers, and dynamic stamina/momentum calculations.",
+        resolution:
+          "Architected a decoupled, data-driven combat simulation engine in Unity using ScriptableObjects to cleanly isolate fighter statistics and trait logic into a deterministic simulation pipeline.",
+      },
+      {
+        problem:
+          "Managing memory footprint and smooth 60 FPS transitions while rendering high-resolution fighter cards, animations, and league progression data on budget mobile devices.",
+        resolution:
+          "Engineered an efficient card object pooling system, optimized sprite atlases, and implemented asynchronous texture loading to prevent garbage collection hiccups and ensure seamless round flow.",
+      },
+    ],
+    metrics: {
+      role: "Lead Unity Developer",
+      duration: "5 Months",
+      engine: "Unity (C#)",
+      teamSize: "2 Developers",
+    },
+  },
+  {
     id: 5,
     title: "Farm Shot: Slay the Dragon",
     desc: "A puzzle game with an integrated level editor where players design challenges to defeat dragons. Features physical mechanics, rich logic tools, and direct player creation.",
