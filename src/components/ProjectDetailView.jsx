@@ -4,6 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { Badge } from "./UI";
 import { ALL_PROJECTS } from "../data/portfolioData";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { playSuccess } from "../utils/soundFX";
 import QRCodeModal from "./QRCodeModal";
 
@@ -77,12 +78,14 @@ const ProjectDetailView = ({ project, onBack, onSelectProject }) => {
     slots.push(null);
   }
 
-  const hasAnyLink = project.androidUrl || project.iosUrl || project.webUrl || project.steamUrl || project.githubUrl;
+  const hasAnyLink = project.androidUrl || project.iosUrl || project.webUrl || project.steamUrl || project.githubUrl || project.itchUrl;
 
   // Next & Prev Project Calculation
-  const currentIndex = ALL_PROJECTS.findIndex((p) => String(p.id) === String(project.id));
-  const prevProject = currentIndex > 0 ? ALL_PROJECTS[currentIndex - 1] : ALL_PROJECTS[ALL_PROJECTS.length - 1];
-  const nextProject = currentIndex < ALL_PROJECTS.length - 1 ? ALL_PROJECTS[currentIndex + 1] : ALL_PROJECTS[0];
+  const { projects } = usePortfolioData();
+  const allProjectsList = projects && projects.length > 0 ? projects : ALL_PROJECTS;
+  const currentIndex = allProjectsList.findIndex((p) => String(p.id) === String(project.id));
+  const prevProject = currentIndex > 0 ? allProjectsList[currentIndex - 1] : allProjectsList[allProjectsList.length - 1];
+  const nextProject = currentIndex < allProjectsList.length - 1 ? allProjectsList[currentIndex + 1] : allProjectsList[0];
 
   const [copied, setCopied] = useState(false);
 
@@ -151,7 +154,7 @@ const ProjectDetailView = ({ project, onBack, onSelectProject }) => {
               <Sparkles size={16} /> Direct Game & Build Redirects
             </div>
             <div className="flex flex-wrap items-center gap-2.5">
-              {(project.androidUrl || project.iosUrl) && (
+              {(project.androidUrl || project.iosUrl || project.itchUrl) && (
                 <button
                   onClick={() => setShowQR(true)}
                   className="bg-[#FF9F1C] hover:bg-[#e88c0c] text-black py-2 px-4 rounded-xl font-bold uppercase tracking-wider text-xs shadow-[3px_3px_0px_0px_#1A1A1A] border-2 border-[#1A1A1A] hover:-translate-y-0.5 hover:shadow-[5px_5px_0px_0px_#1A1A1A] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2 group cursor-pointer"
@@ -188,6 +191,16 @@ const ProjectDetailView = ({ project, onBack, onSelectProject }) => {
                   className="bg-[#FF9F1C] hover:bg-[#e88c0c] text-black py-2 px-4 rounded-xl font-bold uppercase tracking-wider text-xs shadow-[3px_3px_0px_0px_#1A1A1A] border-2 border-[#1A1A1A] hover:-translate-y-0.5 hover:shadow-[5px_5px_0px_0px_#1A1A1A] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2 group"
                 >
                   <Globe size={15} /> <span>Play Online (Web)</span> <ExternalLink size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+                </a>
+              )}
+              {project.itchUrl && (
+                <a
+                  href={project.itchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#FA5C5C] hover:bg-[#e04545] text-white py-2 px-4 rounded-xl font-bold uppercase tracking-wider text-xs shadow-[3px_3px_0px_0px_#1A1A1A] border-2 border-[#1A1A1A] hover:-translate-y-0.5 hover:shadow-[5px_5px_0px_0px_#1A1A1A] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-2 group"
+                >
+                  <Gamepad2 size={15} /> <span>Play on itch.io</span> <ExternalLink size={13} className="opacity-70 group-hover:opacity-100 transition-opacity" />
                 </a>
               )}
               {project.steamUrl && (
@@ -431,7 +444,7 @@ const ProjectDetailView = ({ project, onBack, onSelectProject }) => {
               <Compass size={18} className="text-[#F15BB5]" /> Continue the Journey
             </h3>
             <span className={`text-xs font-bold ${currentTheme.textMuted} opacity-60`}>
-              Quest {currentIndex + 1} of {ALL_PROJECTS.length}
+              Quest {currentIndex >= 0 ? currentIndex + 1 : 1} of {allProjectsList.length}
             </span>
           </div>
 

@@ -4,6 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Badge } from "../components/UI";
 import { JOBS } from "../data/portfolioData";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { playClick, playHover } from "../utils/soundFX";
 
 function useInView(threshold = 0.1) {
@@ -155,13 +156,16 @@ const ExperienceCard = ({ job, idx }) => {
 };
 
 const Experience = () => {
+  const { jobs } = usePortfolioData();
+  const jobList = jobs && jobs.length > 0 ? jobs : JOBS;
+
   return (
     <section id="experience" className="py-20 px-4 max-w-4xl mx-auto">
       <SectionTitle subtitle="Quest Log" title="Experience" colorClass={COLORS.purple.text} />
       <div className="space-y-2">
-        {JOBS.map((job, idx) => (
+        {jobList.map((job, idx) => (
           <ExperienceCard
-            key={idx}
+            key={job.id || idx}
             job={job}
             idx={idx}
           />

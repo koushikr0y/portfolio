@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
-import { Code, Coffee, Trophy, Star, Heart } from "lucide-react";
+import { Code, Coffee, Trophy, Star, Heart, Flame, Sparkles, Award, Zap } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Card } from "../components/UI";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 
-const ICON_MAP = { Code, Coffee, Trophy, Star };
+const ICON_MAP = { Code, Coffee, Trophy, Star, Flame, Sparkles, Award, Zap };
 
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
@@ -24,28 +25,24 @@ function useInView(threshold = 0.15) {
 
 const Stats = () => {
   const { currentTheme } = useTheme();
+  const { stats, profile } = usePortfolioData();
   const [aboutRef, aboutInView] = useInView(0.1);
 
-  const stats = [
-    // { icon: "Code",   val: "20+", label: "Projects Completed", color: "teal" },
-    // { icon: "Coffee", val: "∞",   label: "Cups of Coffee",     color: "pink" },
-    // { icon: "Trophy", val: "12",  label: "Awards Won",         color: "orange" },
-    // { icon: "Star",   val: "100+",label: "Happy Clients",      color: "purple" },
-  ];
+  const displayStats = stats && stats.length > 0 ? stats : [];
 
   return (
     <section id="about" className="py-20 px-4 max-w-6xl mx-auto">
       <SectionTitle subtitle="Player Stats" title="Character Sheet" />
 
       {/* Stat Cards */}
-      {stats.length > 0 && (
+      {displayStats.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {stats.map((stat, i) => {
-            const Icon = ICON_MAP[stat.icon];
+          {displayStats.map((stat, i) => {
+            const Icon = ICON_MAP[stat.icon] || Star;
             return (
-              <Card key={i} color={stat.color} delay={i * 80}
+              <Card key={i} color={stat.color || "teal"} delay={i * 80}
                 className="flex flex-col items-center text-center cursor-pointer">
-                <Icon size={32} className={`mb-4 ${COLORS[stat.color].text}`} strokeWidth={2.5} />
+                <Icon size={32} className={`mb-4 ${COLORS[stat.color || "teal"].text}`} strokeWidth={2.5} />
                 <h3 className={`text-4xl font-black ${currentTheme.text} mb-1`}>{stat.val}</h3>
                 <p className={`text-sm font-bold ${currentTheme.textMuted} uppercase tracking-wide`}>
                   {stat.label}
@@ -79,18 +76,26 @@ const Stats = () => {
               ★ ABOUT ME ★
             </h3>
             <div className={`space-y-4 ${currentTheme.textMuted} leading-relaxed font-medium`}>
-              <p>
-                A passionate game developer dedicated to creating captivating and immersive digital
-                worlds. With over 3 years of experience in the game development industry, I specialize
-                in designing and building engaging gameplay mechanics, stunning visuals, and seamless
-                player experiences. When not developing games, I'm exploring the latest gaming
-                technologies and enhancing my skills to push creative boundaries.
-              </p>
-              <p>
-                I believe in writing clean, efficient code and crafting intuitive, fun gameplay that
-                keeps players coming back. What began as curiosity has grown into a deep passion for
-                innovation and problem-solving in the interactive entertainment space.
-              </p>
+              {profile?.aboutText ? (
+                profile.aboutText.split("\n\n").map((para, idx) => (
+                  <p key={idx}>{para}</p>
+                ))
+              ) : (
+                <>
+                  <p>
+                    A passionate game developer dedicated to creating captivating and immersive digital
+                    worlds. With over 3 years of experience in the game development industry, I specialize
+                    in designing and building engaging gameplay mechanics, stunning visuals, and seamless
+                    player experiences. When not developing games, I'm exploring the latest gaming
+                    technologies and enhancing my skills to push creative boundaries.
+                  </p>
+                  <p>
+                    I believe in writing clean, efficient code and crafting intuitive, fun gameplay that
+                    keeps players coming back. What began as curiosity has grown into a deep passion for
+                    innovation and problem-solving in the interactive entertainment space.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </Card>

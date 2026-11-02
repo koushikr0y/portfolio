@@ -4,6 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Badge } from "../components/UI";
 import { ALL_PROJECTS } from "../data/portfolioData";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { playOpen } from "../utils/soundFX";
 
 function useInView(threshold = 0.08) {
@@ -122,6 +123,11 @@ const ProjectCard = ({ p, idx, onSelect }) => {
                 <Apple size={10} /> iOS
               </span>
             )}
+            {p.itchUrl && (
+              <span className="px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="Play on itch.io">
+                <Gamepad2 size={10} /> itch.io
+              </span>
+            )}
             {p.webUrl && (
               <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-black uppercase flex items-center gap-1" title="Web">
                 <Globe size={10} /> Web
@@ -164,10 +170,12 @@ const ProjectCard = ({ p, idx, onSelect }) => {
 };
 
 const Projects = ({ onSelectProject }) => {
+  const { projects } = usePortfolioData();
   const [showAll, setShowAll] = useState(false);
 
+  const projectList = projects && projects.length > 0 ? projects : ALL_PROJECTS;
   const INITIAL_PROJECT_COUNT = 6;
-  const visibleProjects = showAll ? ALL_PROJECTS : ALL_PROJECTS.slice(0, INITIAL_PROJECT_COUNT);
+  const visibleProjects = showAll ? projectList : projectList.slice(0, INITIAL_PROJECT_COUNT);
 
   return (
     <section id="projects" className="py-20 px-4 max-w-6xl mx-auto">
@@ -180,7 +188,7 @@ const Projects = ({ onSelectProject }) => {
       </div>
 
       {/* Show more/less */}
-      {ALL_PROJECTS.length > INITIAL_PROJECT_COUNT && (
+      {projectList.length > INITIAL_PROJECT_COUNT && (
         <div className="mt-12 text-center">
           <button
             onClick={() => setShowAll(!showAll)}
@@ -199,3 +207,5 @@ const Projects = ({ onSelectProject }) => {
 };
 
 export default Projects;
+
+

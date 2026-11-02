@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Github, Twitter, Gamepad2, Heart, ArrowUp, Mail } from "lucide-react";
+import { Github, Twitter, Heart, ArrowUp, Mail, Shield } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 
@@ -21,7 +21,6 @@ function useInView(threshold = 0.1) {
 
 const SOCIAL_LINKS = [
   { href: "https://github.com/koushikr0y", icon: Github,   color: "purple", label: "GitHub"  },
-  { href: "https://koushikroy.itch.io/",               icon: Gamepad2, color: "orange", label: "itch.io" },
   { href: "https://x.com/ezzgama",         icon: Twitter,  color: "teal",   label: "Twitter" },
   { href: "mailto:koushik22work@gmail.com",icon: Mail,     color: "pink",   label: "Email"   },
 ];
@@ -34,7 +33,7 @@ const NAV_LINKS = [
   { label: "Contact",    href: "#contact"    },
 ];
 
-const Footer = () => {
+const Footer = ({ onOpenAdmin }) => {
   const { currentTheme, theme } = useTheme();
   const [ref, inView] = useInView(0.05);
   const [hoveredSocial, setHoveredSocial] = useState(null);
@@ -228,11 +227,21 @@ const Footer = () => {
             ))}
           </div> */}
 
-          {/* Game tag */}
-          <div
-            className={`text-[10px] font-black tracking-widest uppercase ${COLORS.orange.text} animate-flicker`}
-          >
-            SAVE SLOT 01 ◆ AUTO
+          {/* Game tag & CMS trigger */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onOpenAdmin}
+              title="Open Portfolio CMS & Database (Ctrl+Shift+A)"
+              className={`text-[10px] font-black tracking-widest uppercase ${COLORS.orange.text} hover:opacity-80 transition-all flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded border border-dashed border-orange-500/30 hover:border-orange-500`}
+            >
+              <Shield size={11} />
+              <span>CMS</span>
+            </button>
+            <div
+              className={`text-[10px] font-black tracking-widest uppercase ${COLORS.orange.text} animate-flicker`}
+            >
+              SAVE SLOT 01 ◆ AUTO
+            </div>
           </div>
         </div>
       </div>

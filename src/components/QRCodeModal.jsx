@@ -14,7 +14,11 @@ export default function QRCodeModal({ project, onClose }) {
   if (!project) return null;
 
   const currentUrl =
-    activePlatform === "android" ? project.androidUrl : project.iosUrl;
+    activePlatform === "android"
+      ? project.androidUrl
+      : activePlatform === "ios"
+      ? project.iosUrl
+      : project.androidUrl;
 
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(
     currentUrl || ""
