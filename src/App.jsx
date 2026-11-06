@@ -56,6 +56,16 @@ function PortfolioAppContent() {
     };
   }, [projects]);
 
+  // Keep selectedProject in sync when projects change in real-time or CMS
+  useEffect(() => {
+    if (selectedProject) {
+      const found = projects.find((p) => String(p.id) === String(selectedProject.id));
+      if (found && found !== selectedProject) {
+        setSelectedProject(found);
+      }
+    }
+  }, [projects, selectedProject]);
+
   // Keyboard shortcut: Ctrl+Shift+A (or Cmd+Shift+A) to open Admin CMS
   useEffect(() => {
     const handleKeyDown = (e) => {

@@ -2,8 +2,8 @@
 // Connects to Google Cloud Firestore (Free Spark Plan)
 // Allows dynamic updates to portfolio projects, stats, and jobs without code redeploys.
 
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
+import { initializeApp, getApps, getApp, deleteApp } from "firebase/app";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const STORAGE_KEY = "portfolio_firebase_config";
 
@@ -38,29 +38,47 @@ export const getStoredFirebaseConfig = () => {
       storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.appspot.com`,
       messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "",
       appId: import.meta.env.VITE_FIREBASE_APP_ID || "",
+      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "",
     };
   }
 
   return DEFAULT_FIREBASE_CONFIG;
 };
 
-export const saveFirebaseConfig = (config) => {
+let firebaseApp = null;
+let firestoreDb = null;
+
+export const resetFirebaseApp = async (configOverride) => {
+  try {
+    const apps = getApps();
+    for (const app of apps) {
+      try {
+        await deleteApp(app);
+      } catch (err) {
+        console.warn("Error deleting Firebase app:", err);
+      }
+    }
+  } catch (e) {
+    console.warn("Could not clean existing Firebase apps:", e);
+  }
+  firebaseApp = null;
+  firestoreDb = null;
+  return initFirebaseApp(configOverride);
+};
+
+export const saveFirebaseConfig = async (config) => {
   try {
     if (!config) {
       localStorage.removeItem(STORAGE_KEY);
     } else {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
     }
-    // Re-initialize app instance
-    return initFirebaseApp(config);
+    return await resetFirebaseApp(config);
   } catch (e) {
     console.error("Error saving Firebase config:", e);
     throw e;
   }
 };
-
-let firebaseApp = null;
-let firestoreDb = null;
 
 export const initFirebaseApp = (configOverride) => {
   const config = configOverride || getStoredFirebaseConfig();
@@ -97,8 +115,9 @@ export const isFirebaseConfigured = () => {
 };
 
 export const testFirestoreConnection = async (testConfig) => {
+  let testApp = null;
   try {
-    const testApp = initializeApp(testConfig, "test-instance-" + Date.now());
+    testApp = initializeApp(testConfig, "test-instance-" + Date.now());
     const testDb = getFirestore(testApp);
     const testRef = doc(testDb, "portfolio", "health_check");
     await setDoc(testRef, { timestamp: Date.now(), status: "ok" }, { merge: true });
@@ -107,5 +126,11 @@ export const testFirestoreConnection = async (testConfig) => {
   } catch (err) {
     console.error("Firebase connection test failed:", err);
     throw err;
+  } finally {
+    if (testApp) {
+      try {
+        await deleteApp(testApp);
+      } catch (_) {}
+    }
   }
 };

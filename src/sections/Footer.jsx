@@ -1,7 +1,30 @@
 import { useRef, useState, useEffect } from "react";
-import { Github, Twitter, Heart, ArrowUp, Mail, Shield } from "lucide-react";
+import {
+  Github,
+  Twitter,
+  Heart,
+  ArrowUp,
+  Mail,
+  Shield,
+  Gamepad2,
+  Linkedin,
+  Globe,
+  Sparkles,
+} from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
+import { usePortfolioData } from "../context/PortfolioDataContext";
+import { DEFAULT_PROFILE } from "../data/portfolioData";
+
+const ICON_MAP = {
+  Github,
+  Twitter,
+  Mail,
+  Gamepad2,
+  Linkedin,
+  Globe,
+  Sparkles,
+};
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -10,7 +33,12 @@ function useInView(threshold = 0.1) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setInView(true); obs.unobserve(el); } },
+      ([e]) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          obs.unobserve(el);
+        }
+      },
       { threshold }
     );
     obs.observe(el);
@@ -19,26 +47,37 @@ function useInView(threshold = 0.1) {
   return [ref, inView];
 }
 
-const SOCIAL_LINKS = [
-  { href: "https://github.com/koushikr0y", icon: Github,   color: "purple", label: "GitHub"  },
-  { href: "https://x.com/ezzgama",         icon: Twitter,  color: "teal",   label: "Twitter" },
-  { href: "mailto:koushik22work@gmail.com",icon: Mail,     color: "pink",   label: "Email"   },
-];
-
 const NAV_LINKS = [
-  { label: "About",      href: "#stats"      },
-  { label: "Skills",     href: "#skills"     },
+  { label: "About", href: "#stats" },
+  { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
-  { label: "Projects",   href: "#projects"   },
-  { label: "Contact",    href: "#contact"    },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const Footer = ({ onOpenAdmin }) => {
   const { currentTheme, theme } = useTheme();
+  const { profile } = usePortfolioData();
+  const footerData = { ...DEFAULT_PROFILE, ...(profile || {}) };
+
   const [ref, inView] = useInView(0.05);
   const [hoveredSocial, setHoveredSocial] = useState(null);
   const [showTop, setShowTop] = useState(false);
   const [heartBeating, setHeartBeating] = useState(false);
+
+  const rawSocialLinks =
+    footerData.socialLinks && footerData.socialLinks.length > 0
+      ? footerData.socialLinks
+      : DEFAULT_PROFILE.socialLinks;
+
+  const socialLinks = rawSocialLinks.map((item) => {
+    const IconComponent =
+      typeof item.icon === "string" ? ICON_MAP[item.icon] || Sparkles : item.icon || Sparkles;
+    return {
+      ...item,
+      icon: IconComponent,
+    };
+  });
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);
@@ -79,13 +118,13 @@ const Footer = ({ onOpenAdmin }) => {
           >
             <div className={`text-3xl font-black ${currentTheme.text} tracking-tighter mb-1`}
               style={{ textShadow: "3px 3px 0px #FF9F1C" }}>
-              KOUSHIK ROY
+              {footerData.name || "KOUSHIK ROY"}
             </div>
             <div className={`text-xs font-bold tracking-widest ${COLORS.teal.text} uppercase mb-4`}>
-              Game Developer · Level 24
+              {footerData.title || "Game Developer"} · {footerData.levelText || "Level 24"}
             </div>
             <p className={`text-sm font-medium ${currentTheme.textMuted} leading-relaxed`}>
-              Crafting immersive worlds and unforgettable gameplay experiences, one commit at a time.
+              {footerData.footerTagline || "Crafting immersive worlds and unforgettable gameplay experiences, one commit at a time."}
             </p>
           </div>
 
@@ -98,31 +137,6 @@ const Footer = ({ onOpenAdmin }) => {
               transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s, opacity 0.6s ease 0.2s",
             }}
           >
-            {/* <div className={`text-xs font-black uppercase tracking-widest ${COLORS.orange.text} mb-4 flex items-center gap-2`}>
-              <span className="inline-block w-5 h-[2px] bg-[#FF9F1C]" />
-              Quick Nav
-            </div>
-            <ul className="space-y-2">
-              {NAV_LINKS.map((link, i) => (
-                <li key={i}>
-                  <a
-                    href={link.href}
-                    className={`text-sm font-bold ${currentTheme.textMuted} flex items-center gap-2
-                      hover:${COLORS.orange.text} hover:translate-x-1
-                      transition-all duration-200 group w-fit`}
-                    style={{
-                      animation: inView ? `slide-left 0.35s ease both` : "none",
-                      animationDelay: `${0.25 + i * 0.06}s`,
-                    }}
-                  >
-                    <span className={`text-[#FF9F1C] opacity-0 group-hover:opacity-100 transition-opacity duration-200 -ml-4 group-hover:ml-0`}>
-                      ▶
-                    </span>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul> */}
           </div>
 
           {/* Social column */}
@@ -138,7 +152,7 @@ const Footer = ({ onOpenAdmin }) => {
               Find Me
             </div>
             <div className="flex flex-wrap gap-3">
-              {SOCIAL_LINKS.map(({ href, icon: Icon, color, label }, i) => (
+              {socialLinks.map(({ href, icon: Icon, color = "purple", label }, i) => (
                 <a
                   key={i}
                   href={href}
@@ -148,8 +162,8 @@ const Footer = ({ onOpenAdmin }) => {
                   onMouseEnter={() => setHoveredSocial(i)}
                   onMouseLeave={() => setHoveredSocial(null)}
                   className={`${currentTheme.cardBg} p-3 rounded-xl border-2 border-dashed
-                    ${hoveredSocial === i ? COLORS[color].border : currentTheme.inputBorder}
-                    ${hoveredSocial === i ? COLORS[color].text : currentTheme.textMuted}
+                    ${hoveredSocial === i ? COLORS[color || "purple"].border : currentTheme.inputBorder}
+                    ${hoveredSocial === i ? COLORS[color || "purple"].text : currentTheme.textMuted}
                     shadow-[3px_3px_0px_0px_rgba(0,0,0,0.12)]
                     hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,0.18)]
                     hover:-translate-y-1 hover:scale-110

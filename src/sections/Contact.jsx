@@ -5,6 +5,8 @@ import { COLORS } from "../config/theme";
 import { Card } from "../components/UI";
 import { model } from "../config/gemini";
 import { playSuccess } from "../utils/soundFX";
+import { usePortfolioData } from "../context/PortfolioDataContext";
+import { DEFAULT_PROFILE } from "../data/portfolioData";
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -99,6 +101,9 @@ const XPReward = ({ show }) => (
 
 const Contact = () => {
   const { currentTheme } = useTheme();
+  const { profile } = usePortfolioData();
+  const contactData = { ...DEFAULT_PROFILE, ...(profile || {}) };
+
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -110,6 +115,20 @@ const Contact = () => {
   const [headerRef, headerInView] = useInView(0.2);
   const [leftRef, leftInView]   = useInView(0.1);
   const [rightRef, rightInView] = useInView(0.1);
+
+  const contactEmail = contactData.contactEmail || "koushik22work@gmail.com";
+  const contactHeading = contactData.contactHeading || "Let's Team Up!";
+  const contactText =
+    contactData.contactText ||
+    "Looking for a party member for your next adventure? Whether it's a freelance project, full-time position, or just want to say hi — I'm always ready for new quests!";
+  const contactStats =
+    contactData.contactStats && contactData.contactStats.length > 0
+      ? contactData.contactStats
+      : [
+          { label: "Response", val: "< 24h" },
+          { label: "Projects", val: "20+" },
+          { label: "XP", val: "12k" },
+        ];
 
   const generateQuestBrief = async () => {
     if (!message.trim() || isDrafting) return;
@@ -134,7 +153,9 @@ const Contact = () => {
       playSuccess();
       const subject = `New Quest from ${name || "Adventurer"}`;
       const body = `Adventurer Name: ${name}\nContact Email: ${email}\n\nQuest Details:\n${message}`;
-      window.location.href = `mailto:koushik22work@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
       setSending(false);
       setSent(true);
       setShowXP(true);
@@ -185,17 +206,16 @@ const Contact = () => {
             <div className={`flex items-center gap-2 ${COLORS.purple.text} font-black uppercase tracking-widest text-xs mb-4`}>
               <Zap size={16} className="animate-flicker" /> Side Quest
             </div>
-            <h2 className={`text-3xl font-black ${currentTheme.text} mb-4`}>Let's Team Up!</h2>
+            <h2 className={`text-3xl font-black ${currentTheme.text} mb-4`}>{contactHeading}</h2>
             <p className={`${currentTheme.textMuted} font-medium mb-8`}>
-              Looking for a party member for your next adventure? Whether it's a freelance project,
-              full-time position, or just want to say hi — I'm always ready for new quests!
+              {contactText}
             </p>
 
             <div className="space-y-6 mb-8">
               {/* Email row */}
               <div
                 className="flex items-center gap-4 group cursor-default"
-                onClick={() => navigator.clipboard?.writeText("koushik22work@gmail.com")}
+                onClick={() => navigator.clipboard?.writeText(contactEmail)}
                 title="Click to copy"
               >
                 <div
@@ -208,7 +228,7 @@ const Contact = () => {
                 <div>
                   <p className={`text-xs font-bold ${currentTheme.textMuted} uppercase`}>Email</p>
                   <p className={`font-bold ${currentTheme.text} group-hover:${COLORS.purple.text} transition-colors`}>
-                    koushik22work@gmail.com
+                    {contactEmail}
                   </p>
                 </div>
               </div>
@@ -216,11 +236,7 @@ const Contact = () => {
 
             {/* Decorative stat blocks */}
             <div className={`grid grid-cols-3 gap-3 pt-6 border-t-2 border-dashed ${currentTheme.inputBorder}`}>
-              {[
-                { label: "Response", val: "< 24h" },
-                { label: "Projects", val: "20+"   },
-                { label: "XP",       val: "12k"   },
-              ].map(({ label, val }, i) => (
+              {contactStats.map(({ label, val }, i) => (
                 <div
                   key={i}
                   className={`text-center p-3 rounded-xl ${currentTheme.inputBg} border border-dashed ${currentTheme.inputBorder}

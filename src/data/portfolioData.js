@@ -1,5 +1,105 @@
-export const PORTFOLIO_DATA = {
+export const DEFAULT_PROFILE = {
   name: "Koushik Roy",
+  title: "Game Developer",
+  levelText: "LVL 24 DEV",
+  avatarUrl: "https://api.dicebear.com/9.x/notionists/svg?seed=Riley",
+  availabilityText: "Available for New Projects & Game Roles",
+  isAvailable: true,
+  resumeUrl: "",
+  typewriterWords: [
+    "Lead Unity Game Developer",
+    "Multiplayer Systems Architect",
+    "Game Performance & Optimization",
+    "C# · C++ · Photon Fusion",
+  ],
+  aboutTitle: "★ ABOUT ME ★",
+  aboutText: `A passionate game developer dedicated to creating captivating and immersive digital worlds. With over 3 years of experience in the game development industry, I specialize in designing and building engaging gameplay mechanics, stunning visuals, and seamless player experiences. When not developing games, I'm exploring the latest gaming technologies and enhancing my skills to push creative boundaries.
+
+I believe in writing clean, efficient code and crafting intuitive, fun gameplay that keeps players coming back. What began as curiosity has grown into a deep passion for innovation and problem-solving in the interactive entertainment space.`,
+  contactEmail: "koushik22work@gmail.com",
+  contactHeading: "Let's Team Up!",
+  contactText: "Looking for a party member for your next adventure? Whether it's a freelance project, full-time position, or just want to say hi — I'm always ready for new quests!",
+  contactStats: [
+    { label: "Response", val: "< 24h" },
+    { label: "Projects", val: "20+" },
+    { label: "XP", val: "12k" },
+  ],
+  footerTagline: "Crafting immersive worlds and unforgettable gameplay experiences, one commit at a time.",
+  socialLinks: [
+    { platform: "github", label: "GitHub", href: "https://github.com/koushikr0y", icon: "Github", color: "purple" },
+    { platform: "itch", label: "itch.io", href: "https://koushikroy.itch.io/", icon: "Gamepad2", color: "orange" },
+    { platform: "twitter", label: "Twitter", href: "https://x.com/ezzgama", icon: "Twitter", color: "teal" },
+    { platform: "email", label: "Email", href: "mailto:koushik22work@gmail.com", icon: "Mail", color: "pink" },
+  ],
+};
+
+export const DEFAULT_SKILLS = [
+  {
+    id: "engines",
+    category: "Game Engines & Core Frameworks",
+    icon: "Layers",
+    color: "teal",
+    skills: [
+      {
+        name: "Unity 3D / 2D Engine",
+        icon: "Layers",
+        capabilities: ["Physics Tuning", "Addressables", "DOTS / ECS", "Object Pooling"],
+      },
+    ],
+  },
+  {
+    id: "systems",
+    category: "Programming & Architecture",
+    icon: "Cpu",
+    color: "purple",
+    skills: [
+      {
+        name: "C# / Game Architecture",
+        icon: "Terminal",
+        capabilities: ["Memory Optimization", "GC Minimization", "Custom Editors", "State Machines", "Async Operations"],
+      },
+      {
+        name: "C++ Native Development",
+        icon: "Code2",
+        capabilities: ["Pointers & Memory", "Data Structures", "Low-level Optimization", "Algorithm Tuning"],
+      },
+    ],
+  },
+  {
+    id: "multiplayer",
+    category: "Multiplayer & Networking",
+    icon: "Radio",
+    color: "orange",
+    skills: [
+      {
+        name: "Photon Fusion & Netcode",
+        icon: "Radio",
+        capabilities: ["Server Authority", "Client Prediction", "Lag Compensation", "Matchmaking Queues", "Anti-Cheat"],
+      },
+      {
+        name: "Sockets & REST APIs",
+        icon: "GitBranch",
+        capabilities: ["TCP / UDP Sync", "Custom Data Serialization", "Backend Integration", "Leaderboards"],
+      },
+    ],
+  },
+  {
+    id: "graphics",
+    category: "AR & Hardware Integration",
+    icon: "Sparkles",
+    color: "pink",
+    skills: [
+      {
+        name: "AR & Hardware Integration",
+        icon: "Sparkles",
+        capabilities: ["AR Foundation", "Kinect & LiDAR", "Niantic Lightship", "Real-World Tracking"],
+      },
+    ],
+  },
+];
+
+export const PORTFOLIO_DATA = {
+  ...DEFAULT_PROFILE,
   level: 42,
   class: "Game Developer",
   skills: {

@@ -1,11 +1,45 @@
 import { useRef, useState, useEffect } from "react";
-import { Code, Coffee, Trophy, Star, Heart, Flame, Sparkles, Award, Zap } from "lucide-react";
+import {
+  Code,
+  Coffee,
+  Trophy,
+  Star,
+  Heart,
+  Flame,
+  Sparkles,
+  Award,
+  Zap,
+  Shield,
+  Gamepad2,
+  Rocket,
+  Clock,
+  Laptop,
+  Terminal,
+  User,
+} from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle, Card } from "../components/UI";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 
-const ICON_MAP = { Code, Coffee, Trophy, Star, Flame, Sparkles, Award, Zap };
+const ICON_MAP = {
+  Code,
+  Coffee,
+  Trophy,
+  Star,
+  Heart,
+  Flame,
+  Sparkles,
+  Award,
+  Zap,
+  Shield,
+  Gamepad2,
+  Rocket,
+  Clock,
+  Laptop,
+  Terminal,
+  User,
+};
 
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
@@ -73,7 +107,7 @@ const Stats = () => {
           </div>
           <div>
             <h3 className={`text-2xl font-black ${currentTheme.text} mb-4 flex items-center gap-2`}>
-              ★ ABOUT ME ★
+              {profile?.aboutTitle || "★ ABOUT ME ★"}
             </h3>
             <div className={`space-y-4 ${currentTheme.textMuted} leading-relaxed font-medium`}>
               {profile?.aboutText ? (

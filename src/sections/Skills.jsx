@@ -1,12 +1,53 @@
 import { useState, useRef, useEffect } from "react";
 import {
-  Layers, Cpu, Radio, Sparkles, Terminal, Code2,
-  Boxes, Zap, Wrench, GitBranch, Flame, CheckCircle2, ShieldCheck
+  Layers,
+  Cpu,
+  Radio,
+  Sparkles,
+  Terminal,
+  Code2,
+  Boxes,
+  Zap,
+  Wrench,
+  GitBranch,
+  Flame,
+  CheckCircle2,
+  ShieldCheck,
+  Gamepad2,
+  Monitor,
+  Database,
+  Server,
+  Code,
+  Laptop,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { COLORS } from "../config/theme";
 import { SectionTitle } from "../components/UI";
 import { playClick, playHover } from "../utils/soundFX";
+import { usePortfolioData } from "../context/PortfolioDataContext";
+import { DEFAULT_SKILLS } from "../data/portfolioData";
+
+export const SKILL_ICONS = {
+  Layers,
+  Cpu,
+  Radio,
+  Sparkles,
+  Terminal,
+  Code2,
+  Boxes,
+  Zap,
+  Wrench,
+  GitBranch,
+  Flame,
+  CheckCircle2,
+  ShieldCheck,
+  Gamepad2,
+  Monitor,
+  Database,
+  Server,
+  Code,
+  Laptop,
+};
 
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
@@ -15,7 +56,12 @@ function useInView(threshold = 0.15) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setInView(true); obs.unobserve(el); } },
+      ([e]) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          obs.unobserve(el);
+        }
+      },
       { threshold }
     );
     obs.observe(el);
@@ -24,77 +70,15 @@ function useInView(threshold = 0.15) {
   return [ref, inView];
 }
 
-const SKILL_BRANCHES = [
-  {
-    id: "engines",
-    category: "Game Engines & Core Frameworks",
-    icon: Layers,
-    color: "teal",
-    skills: [
-      {
-        name: "Unity 3D / 2D Engine",
-        icon: Layers,
-        capabilities: ["Physics Tuning", "Addressables", "DOTS / ECS", "Object Pooling"]
-      },
-    ]
-  },
-  {
-    id: "systems",
-    category: "Programming & Architecture",
-    icon: Cpu,
-    color: "purple",
-    skills: [
-      {
-        name: "C# / Game Architecture",
-        icon: Terminal,
-        capabilities: ["Memory Optimization", "GC Minimization", "Custom Editors", "State Machines", "Async Operations"]
-      },
-      {
-        name: "C++ Native Development",
-        icon: Code2,
-        capabilities: ["Pointers & Memory", "Data Structures", "Low-level Optimization", "Algorithm Tuning"]
-      },
-    ]
-  },
-  {
-    id: "multiplayer",
-    category: "Multiplayer & Networking",
-    icon: Radio,
-    color: "orange",
-    skills: [
-      {
-        name: "Photon Fusion & Netcode",
-        icon: Radio,
-        capabilities: ["Server Authority", "Client Prediction", "Lag Compensation", "Matchmaking Queues", "Anti-Cheat"]
-      },
-      {
-        name: "Sockets & REST APIs",
-        icon: GitBranch,
-        capabilities: ["TCP / UDP Sync", "Custom Data Serialization", "Backend Integration", "Leaderboards"]
-      }
-    ]
-  },
-  {
-    id: "graphics",
-    category: "AR & Hardware Integration",
-    icon: Sparkles,
-    color: "pink",
-    skills: [
-      {
-        name: "AR & Hardware Integration",
-        icon: Sparkles,
-        capabilities: ["AR Foundation", "Kinect & LiDAR", "Niantic Lightship", "Real-World Tracking"]
-      },
-    ]
-  }
-];
-
 const SkillNodeCard = ({ skill, branchColor, delay }) => {
   const { currentTheme } = useTheme();
   const [ref, inView] = useInView(0.1);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
-  const Icon = skill.icon;
+  const Icon =
+    typeof skill.icon === "string"
+      ? SKILL_ICONS[skill.icon] || Sparkles
+      : skill.icon || Sparkles;
   const colorObj = COLORS[branchColor] || COLORS.teal;
 
   const handleMouseMove = (e) => {
@@ -109,8 +93,14 @@ const SkillNodeCard = ({ skill, branchColor, delay }) => {
       ref={ref}
       className="group relative cursor-pointer"
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => { setHovered(true); playHover(); }}
-      onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }); }}
+      onMouseEnter={() => {
+        setHovered(true);
+        playHover();
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+        setTilt({ x: 0, y: 0 });
+      }}
       style={{
         transform: inView
           ? hovered
@@ -124,12 +114,15 @@ const SkillNodeCard = ({ skill, branchColor, delay }) => {
       }}
     >
       {/* Offset shadow div matching ProjectCard */}
-      <div className={`absolute inset-0 bg-black/20 rounded-2xl transition-transform duration-200
+      <div
+        className={`absolute inset-0 bg-black/20 rounded-2xl transition-transform duration-200
         ${hovered ? "translate-x-3 translate-y-3" : "translate-x-2 translate-y-2"}`}
       />
 
       {/* Card Container matching ProjectCard */}
-      <div className={`relative ${currentTheme.cardBg} border-[3px] border-dashed ${colorObj.border} rounded-2xl overflow-hidden p-6`}>
+      <div
+        className={`relative ${currentTheme.cardBg} border-[3px] border-dashed ${colorObj.border} rounded-2xl overflow-hidden p-6`}
+      >
         {/* Holographic Light Sheen on Hover */}
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ${
@@ -138,42 +131,36 @@ const SkillNodeCard = ({ skill, branchColor, delay }) => {
         />
 
         {/* Skill Card Header */}
-        <div className="flex items-center justify-between gap-3.5 mb-4 relative z-10">
-          <div className="flex items-center gap-3.5">
-            <div
-              className={`p-3 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text} border ${currentTheme.cardBorder} shadow-sm
-              group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}
+        <div className="flex items-center gap-3 mb-4">
+          <div
+            className={`p-2.5 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text} border border-dashed ${colorObj.border}`}
+          >
+            <Icon size={22} />
+          </div>
+          <div>
+            <h4
+              className={`text-lg font-black ${currentTheme.text} uppercase tracking-tight`}
             >
-              <Icon size={26} />
-            </div>
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#FF9F1C] flex items-center gap-1">
-                <ShieldCheck size={12} /> VERIFIED ABILITY
-              </span>
-              <h4 className={`text-xl font-black ${currentTheme.text} leading-tight`}>
-                {skill.name}
-              </h4>
+              {skill.name}
+            </h4>
+            <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-400">
+              <CheckCircle2 size={13} />
+              <span>Skill Node Unlocked</span>
             </div>
           </div>
         </div>
 
-        {/* Capabilities / Specializations list */}
-        <div className="pt-3 border-t-2 border-dashed border-gray-700/20 relative z-10">
-          <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-2.5">
-            Capabilities & Core Tech:
-          </span>
-          <div className="flex flex-wrap gap-2">
-            {skill.capabilities.map((cap, i) => (
-              <span
-                key={i}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold ${currentTheme.inputBg} ${currentTheme.text} border border-gray-700/30 flex items-center gap-1.5
-                  group-hover:border-[#2EC4B6]/60 hover:scale-105 hover:bg-[#2EC4B6]/20 transition-all duration-200 shadow-sm`}
-              >
-                <CheckCircle2 size={13} className={colorObj.text} />
-                {cap}
-              </span>
-            ))}
-          </div>
+        {/* Capabilities List */}
+        <div className="flex flex-wrap gap-1.5 pt-2 border-t-2 border-dashed border-gray-700/20">
+          {(skill.capabilities || []).map((cap, i) => (
+            <span
+              key={i}
+              className={`text-xs font-bold px-2.5 py-1 rounded-lg ${currentTheme.inputBg} ${currentTheme.text} border border-dashed ${currentTheme.inputBorder}
+                transition-all duration-200 hover:scale-105 hover:border-[#2EC4B6]`}
+            >
+              {cap}
+            </span>
+          ))}
         </div>
       </div>
     </div>
@@ -182,40 +169,71 @@ const SkillNodeCard = ({ skill, branchColor, delay }) => {
 
 const Skills = () => {
   const { currentTheme } = useTheme();
-  const [activeTab, setActiveTab] = useState("all");
+  const { skills } = usePortfolioData();
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  const filteredBranches = activeTab === "all"
-    ? SKILL_BRANCHES
-    : SKILL_BRANCHES.filter(b => b.id === activeTab);
+  const rawBranches =
+    skills && skills.length > 0 ? skills : DEFAULT_SKILLS;
+
+  const branches = rawBranches.map((b) => ({
+    ...b,
+    icon:
+      typeof b.icon === "string"
+        ? SKILL_ICONS[b.icon] || Layers
+        : b.icon || Layers,
+    skills: (b.skills || []).map((s) => ({
+      ...s,
+      icon:
+        typeof s.icon === "string"
+          ? SKILL_ICONS[s.icon] || Sparkles
+          : s.icon || Sparkles,
+    })),
+  }));
+
+  const filteredBranches =
+    activeCategory === "all"
+      ? branches
+      : branches.filter((b) => b.id === activeCategory);
 
   return (
     <section id="skills" className="py-20 px-4 max-w-6xl mx-auto">
-      <SectionTitle subtitle="Abilities & Stack" title="Skill Tree" colorClass={COLORS.teal.text} />
+      <SectionTitle
+        subtitle="Skill Tree"
+        title="Abilities & Masteries"
+        colorClass={COLORS.teal.text}
+      />
 
-      {/* Branch Selector Filter Tabs */}
-      <div className="flex flex-wrap justify-center gap-2 mb-12">
+      {/* Category Filter Tabs */}
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
         <button
-          onClick={() => { playClick(); setActiveTab("all"); }}
-          onMouseEnter={playHover}
-          className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border ${currentTheme.cardBorder} transition-all
-            ${activeTab === "all"
-              ? "bg-[#F15BB5] text-white shadow-md"
-              : `${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 shadow-sm`}`}
+          onClick={() => {
+            playClick();
+            setActiveCategory("all");
+          }}
+          className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border-2 border-[#1A1A1A] transition-all
+            ${
+              activeCategory === "all"
+                ? "bg-[#2EC4B6] text-black shadow-[3px_3px_0px_0px_#1A1A1A] -translate-y-0.5"
+                : `${currentTheme.cardBg} ${currentTheme.text} shadow-[2px_2px_0px_0px_#1A1A1A] hover:bg-white/10`
+            }`}
         >
           All Branches
         </button>
-        {SKILL_BRANCHES.map((b) => {
+        {branches.map((b) => {
           const TabIcon = b.icon;
-          const isActive = activeTab === b.id;
           return (
             <button
               key={b.id}
-              onClick={() => { playClick(); setActiveTab(b.id); }}
-              onMouseEnter={playHover}
-              className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border ${currentTheme.cardBorder} transition-all flex items-center gap-2
-                ${isActive
-                  ? "bg-[#2EC4B6] text-black shadow-md"
-                  : `${currentTheme.cardBg} ${currentTheme.text} hover:bg-white/10 shadow-sm`}`}
+              onClick={() => {
+                playClick();
+                setActiveCategory(b.id);
+              }}
+              className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider border-2 border-[#1A1A1A] transition-all flex items-center gap-2
+                ${
+                  activeCategory === b.id
+                    ? `${COLORS[b.color || "teal"].bg} text-black shadow-[3px_3px_0px_0px_#1A1A1A] -translate-y-0.5`
+                    : `${currentTheme.cardBg} ${currentTheme.text} shadow-[2px_2px_0px_0px_#1A1A1A] hover:bg-white/10`
+                }`}
             >
               <TabIcon size={15} />
               {b.category.split(" ")[0]}
@@ -228,23 +246,27 @@ const Skills = () => {
       <div className="space-y-12">
         {filteredBranches.map((branch) => {
           const BranchIcon = branch.icon;
-          const colorObj = COLORS[branch.color] || COLORS.teal;
+          const colorObj = COLORS[branch.color || "teal"] || COLORS.teal;
 
           return (
             <div key={branch.id} className="space-y-6">
               {/* Branch Header */}
               <div className="flex items-center gap-3 border-b-2 border-dashed border-gray-700/30 pb-3">
-                <div className={`p-2 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text}`}>
+                <div
+                  className={`p-2 rounded-xl ${colorObj.bg} bg-opacity-20 ${colorObj.text}`}
+                >
                   <BranchIcon size={24} />
                 </div>
-                <h3 className={`text-2xl font-black ${currentTheme.text} uppercase tracking-tight`}>
+                <h3
+                  className={`text-2xl font-black ${currentTheme.text} uppercase tracking-tight`}
+                >
                   {branch.category}
                 </h3>
               </div>
 
               {/* Skills Card Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {branch.skills.map((skill, idx) => (
+                {(branch.skills || []).map((skill, idx) => (
                   <SkillNodeCard
                     key={skill.name}
                     skill={skill}
